@@ -7,7 +7,7 @@ namespace DwLang.Language.Interpreter
     public class ExecutionContext : IDisposable
     {
         private readonly IDictionary<string, BigDecimal> _values = new Dictionary<string, BigDecimal>();
-        private MathContext _mathContext = new MathContext(0, RoundingMode.Unnecessary);
+        public static MathContext MathContext { get; private set; } = new MathContext(0, RoundingMode.Unnecessary);
 
         public void Assign(string name, BigDecimal value)
         {
@@ -29,12 +29,12 @@ namespace DwLang.Language.Interpreter
 
         public void SetCurrentPrecision(int precision)
         {
-            _mathContext = new MathContext(precision, RoundingMode.HalfUp);
+            MathContext = new MathContext(precision, RoundingMode.HalfUp);
         }
 
         public MathContext GetMathContext()
         {
-            return _mathContext;
+            return MathContext;
         }
 
         public BigDecimal Get(string name)
