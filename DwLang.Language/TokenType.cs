@@ -2,17 +2,16 @@
 {
     public enum TokenType
     {
-        EndOfFile,
-        EndOfLine,
+        EndOfCode,
 
         Identifier,
         Number,
 
         // Separators
-        Comma,
         Semicolon,
         CloseParen,
         OpenParen,
+        Comment,
 
         // Keywords
         Var,
@@ -25,13 +24,14 @@
         Print,
 
         // Directives
-        SetPrecision,
+        Set,
+        Precision,
 
         // Operators
         Plus,
         Minus,
-        Asterisk,
-        Slash,
+        X,
+        Colon,
         Exclamation,
         Equals
     }

@@ -1,8 +1,9 @@
-﻿using System.Text;
+﻿using DwLang.Language;
+using System.Text;
 
 namespace DwLang
 {
-    public class DwLangConsole : DwLangObservable
+    public class DwLangConsole : DwLangObservable, IOutputStream
     {
         private readonly StringBuilder _string = new StringBuilder(128);
 

@@ -13,7 +13,7 @@
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -23,8 +23,10 @@
 
         <TextBox Text="{Binding Console.Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 MinHeight="25"
+                MaxHeight="200"
                 FontSize="14"
                 Margin="0 0 0 5"
+                VerticalScrollBarVisibility="Auto"
                 BorderBrush="Orange"
                 AcceptsReturn="True" />
 

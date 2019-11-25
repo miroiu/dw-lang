@@ -9,9 +9,11 @@ namespace DwLang
         {
             RunCommand = new DwLangCommand(Run);
             Console = new DwLangConsole();
+            Interpreter = new DwLangInterpreter(Console);
         }
 
         public DwLangConsole Console { get; }
+        public DwLangInterpreter Interpreter { get; }
         public ICommand RunCommand { get; }
 
         private async void Run()
@@ -24,12 +26,14 @@ namespace DwLang
 
             var root = parser.Parse();
 
-            // TODO: Make this a local variable to hold state
-            var interpreter = new DwLangInterpreter();
-
-            var result = await interpreter.Run(root);
-
-            Console.WriteLine(result);
+            try
+            {
+                await Interpreter.Run(root);
+            }
+            catch(DwLangException ex)
+            {
+                throw ex;
+            }
         }
     }
 }

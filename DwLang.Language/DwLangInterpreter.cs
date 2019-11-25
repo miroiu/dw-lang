@@ -4,11 +4,18 @@ namespace DwLang.Language
 {
     public class DwLangInterpreter
     {
-        public async Task<string> Run(Expression root)
+        private readonly IOutputStream _output;
+
+        public DwLangInterpreter(IOutputStream output)
+        {
+            _output = output;
+        }
+
+        public async Task Run(Expression root)
         {
             await Task.CompletedTask;
-            // TODO
-            return "some-output";
+
+            _output.WriteLine("some-output");
         }
     }
 }
