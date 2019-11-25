@@ -8,15 +8,16 @@ namespace DwLang.Language.Parser
         public Expression Accept(DwLangParser parser, Token token)
         {
             var identifierToken = parser.Match(TokenType.Identifier);
+            Expression initializer = default;
 
-            //var peek = parser.Peek();
+            var peek = parser.Peek();
+            if (peek.Type == TokenType.Equals)
+            {
+                parser.Take();
+                initializer = parser.ParsePrimaryExpression();
+            }
 
-            //if(peek.Type == TokenType.Equals)
-            //{
-
-            //}
-
-            return new VariableDeclaration(new Identifier(identifierToken.Text), null);
+            return new VariableDeclaration(new Identifier(identifierToken.Text), initializer);
         }
     }
 }

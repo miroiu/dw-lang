@@ -39,26 +39,26 @@ namespace DwLang.Language
                 return default;
             }
 
-            var parslet = Parslets[(token.Type, true)];
-            var result = parslet.Accept(this, token);
+            if (Parslets.TryGetValue((token.Type, true), out var parslet))
+            {
+                var result = parslet.Accept(this, token);
 
-            Match(TokenType.Semicolon);
+                Match(TokenType.Semicolon);
 
-            HasNext = _lexer.Peek().Type != TokenType.EndOfCode;
+                HasNext = _lexer.Peek().Type != TokenType.EndOfCode;
 
-            return result;
+                return result;
+            }
+
+            throw new DwLangParserException($"Unexpected token {token.Type} in primary epression.");
         }
 
         public Expression ParsePrimaryExpression()
         {
             var token = _lexer.Lex();
-
-            switch (token.Type)
+            if (Parslets.TryGetValue((token.Type, false), out var parslet))
             {
-                case TokenType.OpenParen:
-                case TokenType.Identifier:
-                case TokenType.Number:
-                    return Parslets[(token.Type, false)].Accept(this, token);
+                return parslet.Accept(this, token);
             }
 
             throw new DwLangParserException($"Unexpected token {token.Type} in primary epression.");
@@ -76,9 +76,14 @@ namespace DwLang.Language
             throw new DwLangParserException($"Expected {tokenType} but found {token.Type}");
         }
 
-        //public Token Peek()
-        //{
-        //    if(_lexer.Pee)
-        //}
+        public Token Peek(int offset = 1)
+        {
+            return _lexer.Peek(offset);
+        }
+
+        public Token Take()
+        {
+            return _lexer.Lex();
+        }
     }
 }

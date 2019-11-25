@@ -1,7 +1,4 @@
 ﻿using DwLang.Language.Expressions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DwLang.Language.Interpreter
 {
@@ -10,7 +7,10 @@ namespace DwLang.Language.Interpreter
     {
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
-            return (expression as Grouping).Inner;
+            var casted = expression as Grouping;
+            var result = DwLangInterpreter.Evaluators[casted.Inner.GetType()].Evaluate(casted.Inner, ctx);
+
+            return result;
         }
     }
 }
