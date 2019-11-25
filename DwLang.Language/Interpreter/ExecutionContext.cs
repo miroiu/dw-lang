@@ -8,6 +8,13 @@ namespace DwLang.Language.Interpreter
     {
         private readonly IDictionary<string, BigDecimal> _values = new Dictionary<string, BigDecimal>();
         public static MathContext MathContext { get; private set; } = new MathContext(0, RoundingMode.Unnecessary);
+        private readonly IOutputStream _out;
+
+        public ExecutionContext(IOutputStream outs)
+        {
+            _out = outs;
+        }
+
 
         public void Assign(string name, BigDecimal value)
         {
@@ -25,6 +32,11 @@ namespace DwLang.Language.Interpreter
                 throw new DwLangExecutionException($"Variable {name} is already initialized.");
             }
             _values[name] = value;
+        }
+
+        public void Print(BigDecimal value)
+        {
+            _out.WriteLine(value.ToString());
         }
 
         public void SetCurrentPrecision(int precision)

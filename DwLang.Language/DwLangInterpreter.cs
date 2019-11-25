@@ -24,7 +24,7 @@ namespace DwLang.Language
         public async Task Run(Expressions.Expression root)
         {
             await Task.CompletedTask;
-            using (var ctx = new ExecutionContext())
+            using (var ctx = new ExecutionContext(_output))
             {
                 var evaluator = Evaluators[root.GetType()];
                 var _ = evaluator.Evaluate(root, ctx);
