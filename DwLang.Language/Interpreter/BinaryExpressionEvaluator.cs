@@ -1,5 +1,6 @@
 ﻿using Deveel.Math;
 using DwLang.Language.Expressions;
+using System.Collections.Generic;
 
 namespace DwLang.Language.Interpreter
 {
@@ -30,7 +31,20 @@ namespace DwLang.Language.Interpreter
                         new UnaryExpression(UnaryOperatorType.Factorial, new BinaryExpression(casted.Left, BinaryOperatorType.Minus, casted.Right))
                         );
                 case BinaryOperatorType.Pwd:
-                    return null;
+                    var t = right.ToInt32();
+                    BinaryExpression final = null;
+                    for(var i = t; i >= 1; i--)
+                    {
+                        var add = new BinaryExpression(casted.Left, BinaryOperatorType.Pow, new Constant(new BigDecimal(i)));
+                        if (final == null)
+                        {
+                            final = new BinaryExpression(new Constant(BigDecimal.Zero), BinaryOperatorType.Plus, add);
+                        } else
+                        {
+                            final = new BinaryExpression(final, BinaryOperatorType.Plus, add);
+                        }
+                    }
+                    return final;
             }
             return null;
         }
