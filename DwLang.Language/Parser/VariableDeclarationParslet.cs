@@ -14,7 +14,7 @@ namespace DwLang.Language.Parser
             if (peek.Type == TokenType.Equals)
             {
                 parser.Take();
-                initializer = parser.ParsePrimaryExpression();
+                initializer = parser.ParseExpression();
             }
 
             return new VariableDeclaration(new Identifier(identifierToken.Text), initializer);

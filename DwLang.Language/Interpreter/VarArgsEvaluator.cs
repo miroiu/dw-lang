@@ -15,24 +15,24 @@ namespace DwLang.Language.Interpreter
             switch(casted.OperatorType)
             {
                 case VarArgsOperatorType.Avg:
-                    var sumExpr = casted.Expressions.First();
-                    for (var i = 1; i < casted.Expressions.Count; i++)
+                    var sumExpr = casted.Arguments.First();
+                    for (var i = 1; i < casted.Arguments.Count; i++)
                     {
-                        sumExpr = new BinaryExpression(sumExpr, BinaryOperatorType.Plus, casted.Expressions.ElementAt(i));
+                        sumExpr = new BinaryExpression(sumExpr, BinaryOperatorType.Plus, casted.Arguments.ElementAt(i));
                     }
-                    return new BinaryExpression(sumExpr, BinaryOperatorType.Divide, new Constant(new Deveel.Math.BigDecimal(casted.Expressions.Count)));
+                    return new BinaryExpression(sumExpr, BinaryOperatorType.Divide, new Constant(new Deveel.Math.BigDecimal(casted.Arguments.Count)));
 
                 case VarArgsOperatorType.Med:
-                    var n = casted.Expressions.Count;
-                    if (casted.Expressions.Count % 2 == 0)
+                    var n = casted.Arguments.Count;
+                    if (casted.Arguments.Count % 2 == 0)
                     {
                         // even
-                        var firstValue = casted.Expressions.ElementAt(n / 2 - 1);
-                        var secondValue = casted.Expressions.ElementAt((n + 1) / 2 - 1);
+                        var firstValue = casted.Arguments.ElementAt(n / 2 - 1);
+                        var secondValue = casted.Arguments.ElementAt((n + 1) / 2 - 1);
                         return new VarArgsExpression(VarArgsOperatorType.Avg, new Expression[] {firstValue, secondValue});
                     } else
                     {
-                        return casted.Expressions.ElementAt(((n + 1)/2) - 1);
+                        return casted.Arguments.ElementAt(((n + 1)/2) - 1);
                     }
             }
             return null;

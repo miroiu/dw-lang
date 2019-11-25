@@ -4,13 +4,13 @@ namespace DwLang.Language.Expressions
 {
     public class VarArgsExpression : Expression
     {
-        public VarArgsExpression(VarArgsOperatorType operatorType, Expression[] expressions)
+        public VarArgsExpression(VarArgsOperatorType operatorType, Expression[] args)
         {
             OperatorType = operatorType;
-            Expressions = expressions;
+            Arguments = args;
         }
 
         public VarArgsOperatorType OperatorType { get; }
-        public IReadOnlyCollection<Expression> Expressions { get; }
+        public IReadOnlyCollection<Expression> Arguments { get; }
     }
 }

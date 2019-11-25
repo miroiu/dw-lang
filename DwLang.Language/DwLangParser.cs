@@ -53,7 +53,55 @@ namespace DwLang.Language
             throw new DwLangParserException($"Unexpected token {token.Type} in primary epression.");
         }
 
-        public Expression ParsePrimaryExpression()
+        public Expression ParseExpression(OperatorPrecedence operatorPrecedence = OperatorPrecedence.None)
+        {
+            return ParseBinaryExpression(parentPrecedence: operatorPrecedence);
+        }
+
+        private Expression ParseBinaryExpression(Expression left = default, OperatorPrecedence parentPrecedence = OperatorPrecedence.None)
+        {
+            var token = Take();
+
+            if (left == default)
+            {
+                if (token.Type.IsOperator() && Parslets.TryGetValue((token.Type, false), out var parslet))
+                {
+                    if (parslet is UnaryParslet unary)
+                    {
+                        left = unary.Accept(this, token);
+                    }
+                    else
+                    {
+                        left = ParsePrimaryExpression();
+                    }
+                }
+                else
+                {
+                    left = ParsePrimaryExpression();
+                }
+            }
+
+            while (token.Type != TokenType.Semicolon)
+            {
+                if (token.Type.IsOperator() && Parslets.TryGetValue((token.Type, false), out var parslet))
+                {
+                    var precendence = token.Type.ToOperatorPrecedence();
+
+                    if (parentPrecedence >= precendence)
+                    {
+                        return left;
+                    }
+
+                    left = new BinaryExpression(left, token.Type.ToBinaryOperatorType(), ParseBinaryExpression(parentPrecedence: precendence));
+                }
+
+                return left;
+            }
+
+            return left;
+        }
+
+        private Expression ParsePrimaryExpression()
         {
             var token = _lexer.Lex();
             if (Parslets.TryGetValue((token.Type, false), out var parslet))
@@ -61,7 +109,7 @@ namespace DwLang.Language
                 return parslet.Accept(this, token);
             }
 
-            throw new DwLangParserException($"Unexpected token {token.Type} in primary epression.");
+            return ParseBinaryExpression();
         }
 
         public Token Match(TokenType tokenType)

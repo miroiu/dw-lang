@@ -25,10 +25,10 @@
         Minus,
         X,
         Colon,
-        Equals,
         Pow,
         Prm,
         Pwd,
+        Equals,
 
         // Unary operators
         Print,
