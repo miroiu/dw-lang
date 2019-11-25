@@ -13,7 +13,7 @@ namespace DwLang.Language.Interpreter
             var casted = expression as CompilationUnit;
             foreach (var childExpression in casted.Statements)
             {
-
+                DwLangInterpreter.Evaluators[childExpression.GetType()].Evaluate(childExpression, ctx);
             }
             return null;
         }

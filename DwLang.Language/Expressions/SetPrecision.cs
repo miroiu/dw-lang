@@ -2,11 +2,11 @@
 {
     public class SetPrecision : Expression
     {
-        public SetPrecision(int precision)
+        public SetPrecision(Expression precision)
         {
             Precision = precision;
         }
 
-        public int Precision { get; }
+        public Expression Precision { get; }
     }
 }
