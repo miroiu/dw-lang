@@ -36,7 +36,7 @@ namespace DwLang.Language.Interpreter
 
         public void Print(BigDecimal value)
         {
-            _out.WriteLine(value.ToString());
+            _out.WriteLine(value.ToString()); // TODO comma is the decimal separator
         }
 
         public void SetCurrentPrecision(int precision)
