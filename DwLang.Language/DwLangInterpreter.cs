@@ -14,7 +14,13 @@ namespace DwLang.Language
 
         public static readonly IDictionary<Type, IExpressionEvaluator> Evaluators = typeof(DwLangInterpreter).Assembly.GetTypes()
                 .Where(x => typeof(IExpressionEvaluator).IsAssignableFrom(x) && x.CustomAttributes.Any())
-                .ToDictionary(x => (x.GetCustomAttributes(typeof(ExpressionEvaluatorAttribute), true).First() as ExpressionEvaluatorAttribute).ExpressionType, x => Activator.CreateInstance(x) as IExpressionEvaluator);
+                .SelectMany(x => {
+                    return x.GetCustomAttributes(false).Select(y => new AttrWithType { 
+                        Attr = y as ExpressionEvaluatorAttribute,
+                        Type = x
+                    }).ToList();
+                })
+                .ToDictionary(x => (x.Attr as ExpressionEvaluatorAttribute).ExpressionType, x => Activator.CreateInstance(x.Type) as IExpressionEvaluator);
 
         public DwLangInterpreter(IOutputStream output)
         {
@@ -30,5 +36,11 @@ namespace DwLang.Language
                 var _ = evaluator.Evaluate(root, ctx);
             }
         }
+    }
+
+    internal class AttrWithType
+    {
+        public Type Type { get; set; }
+        public ExpressionEvaluatorAttribute Attr { get; set; }
     }
 }
