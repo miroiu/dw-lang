@@ -73,7 +73,7 @@ namespace DwLang.Language
                 }
             }
 
-            throw new DwLangLexerException(_lineNumber, _statementIndex, "Comment is not closed");
+            throw new DwLangLexerException(_text.Line, _text.Column, "Comment is not closed");
         }
     }
 }

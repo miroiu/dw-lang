@@ -22,25 +22,32 @@ namespace DwLang
             var source = new SourceText(code);
 
             var lexer = new DwLangLexer(source);
-            while (true)
-            {
-                var currentToken = lexer.Lex();
-                Console.WriteLine($"{currentToken.Text} - {currentToken.Type.ToString()}");
-                if (currentToken.Type == TokenType.EndOfCode)
-                {
-                    break;
-                }
-            }
             var parser = new DwLangParser(lexer);
             var root = parser.Parse();
+
+            PrintTokens(lexer);
 
             try
             {
                 await Interpreter.Run(root);
             }
-            catch(DwLangException ex)
+            catch (DwLangException ex)
             {
                 throw ex;
+            }
+        }
+
+        private void PrintTokens(DwLangLexer lexer)
+        {
+            while (true)
+            {
+                var currentToken = lexer.Lex();
+                Console.WriteLine($"{currentToken.Type.ToString()} - {currentToken.Text}");
+
+                if (currentToken.Type == TokenType.EndOfCode)
+                {
+                    break;
+                }
             }
         }
     }

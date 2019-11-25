@@ -3,9 +3,6 @@
     public partial class DwLangLexer
     {
         private readonly SourceText _text;
-        private int _statementIndex;
-        private int _lineNumber;
-        private readonly TokenType _previousToken = TokenType.Var;
 
         public DwLangLexer(SourceText text)
         {
@@ -28,7 +25,6 @@
                 case ';':
                     token.Type = TokenType.Semicolon;
                     _text.MoveNext();
-                    ++_statementIndex;
                     break;
 
                 case '+':
@@ -76,7 +72,6 @@
                     return Lex();
 
                 case '\n':
-                    ++_lineNumber;
                     _text.MoveNext();
                     return Lex();
 
@@ -151,7 +146,7 @@
                 case 'Y':
                 case 'Z':
                 case '_':
-                    if (_text.Current == 'x' && _previousToken == TokenType.Number)
+                    if (_text.Current == 'x' && char.IsDigit(_text.Peek()))
                     {
                         token.Type = TokenType.X;
                         break;
@@ -163,7 +158,7 @@
                     break;
 
                 default:
-                    throw new DwLangLexerException(_lineNumber, _statementIndex, $"Unexpected character {_text.Current}");
+                    throw new DwLangLexerException(_text.Line, _text.Column, $"Unexpected character {_text.Current}");
             }
 
             return token;

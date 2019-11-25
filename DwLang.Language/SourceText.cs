@@ -16,11 +16,22 @@ namespace DwLang.Language
 
         object IEnumerator.Current => Current;
 
+        public int Column { get; private set; }
+        public int Line { get; private set; }
+
         public bool MoveNext()
         {
             if (Position + 1 < _source.Length)
             {
                 Position++;
+                Column++;
+
+                if (Current == '\n')
+                {
+                    Line++;
+                    Column = 0;
+                }
+
                 return true;
             }
 

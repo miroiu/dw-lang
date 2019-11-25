@@ -15,12 +15,6 @@
 
         // Keywords
         Var,
-        Pow,
-        Prm,
-        Pwd,
-        Sqr,
-        Avg,
-        Med,
         Print,
 
         // Directives
@@ -33,6 +27,13 @@
         X,
         Colon,
         Exclamation,
-        Equals
+        Equals,
+
+        Pow,
+        Prm,
+        Pwd,
+        Sqr,
+        Avg,
+        Med
     }
 }
