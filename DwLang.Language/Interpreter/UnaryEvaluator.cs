@@ -27,8 +27,8 @@ namespace DwLang.Language.Interpreter
             {
                 return value;
             }
-            BigDecimal lessOne = n - BigDecimal.One;
-            return Factorial(value * lessOne, lessOne);
+            BigDecimal lessOne = BigMath.Subtract(n, BigDecimal.One);
+            return Factorial(BigMath.Multiply(value, lessOne), lessOne);
         }
     }
 }

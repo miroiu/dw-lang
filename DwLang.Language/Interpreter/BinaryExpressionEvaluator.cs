@@ -1,8 +1,5 @@
 ﻿using Deveel.Math;
 using DwLang.Language.Expressions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DwLang.Language.Interpreter
 {
@@ -17,15 +14,15 @@ namespace DwLang.Language.Interpreter
             switch (casted.OperatorType)
             {
                 case BinaryOperatorType.Divide:
-                    return new Constant(left / right);
+                    return new Constant(BigMath.Divide(left, right, ctx.GetMathContext()));
                 case BinaryOperatorType.Minus:
-                    return new Constant(left - right);
+                    return new Constant(BigMath.Subtract(left, right, ctx.GetMathContext()));
                 case BinaryOperatorType.Multiply:
-                    return new Constant(left * right);
+                    return new Constant(BigMath.Multiply(left, right, ctx.GetMathContext()));
                 case BinaryOperatorType.Plus:
-                    return new Constant(left + right);
+                    return new Constant(BigMath.Add(left, right, ctx.GetMathContext()));
                 case BinaryOperatorType.Pow:
-                    return new Constant(new BigDecimal(Math.Pow(left.ToInt64(), right.ToInt64()), ctx.GetMathContext()));
+                    return new Constant(BigMath.Pow(left, right.ToInt32(), ctx.GetMathContext()));
                 case BinaryOperatorType.Prm:
                     return null; // TODO reuse expressions
             }
