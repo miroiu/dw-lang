@@ -22,8 +22,16 @@ namespace DwLang
             var source = new SourceText(code);
 
             var lexer = new DwLangLexer(source);
+            while (true)
+            {
+                var currentToken = lexer.Lex();
+                Console.WriteLine($"{currentToken.Text} - {currentToken.Type.ToString()}");
+                if (currentToken.Type == TokenType.EndOfCode)
+                {
+                    break;
+                }
+            }
             var parser = new DwLangParser(lexer);
-
             var root = parser.Parse();
 
             try

@@ -10,7 +10,7 @@ namespace DwLang.Language
         public int Position { get; private set; }
 
         public SourceText(string source)
-            => _source = source;
+            => _source = $"{source}\0";
 
         public char Current => _source[Position];
 

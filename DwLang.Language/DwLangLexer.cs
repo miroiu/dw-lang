@@ -5,7 +5,7 @@
         private readonly SourceText _text;
         private int _statementIndex;
         private int _lineNumber;
-        private TokenType _previousToken;
+        private readonly TokenType _previousToken = TokenType.Var;
 
         public DwLangLexer(SourceText text)
         {
@@ -14,7 +14,10 @@
 
         public Token Lex()
         {
-            Token token = new Token();
+            Token token = new Token
+            {
+                Text = $"{_text.Current}"
+            };
 
             switch (_text.Current)
             {
