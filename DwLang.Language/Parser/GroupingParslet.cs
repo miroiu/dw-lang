@@ -2,15 +2,14 @@
 
 namespace DwLang.Language.Parser
 {
-    [Parslet(TokenType.Print, true)]
-    [Parslet(TokenType.Exclamation)]
-    [Parslet(TokenType.Sqr)]
-    public class UnaryParslet : IParslet
+    [Parslet(TokenType.OpenParen)]
+    public class GroupingParslet : IParslet
     {
         public Expression Accept(DwLangParser parser, Token token)
         {
             var expr = parser.ParsePrimaryExpression();
-            return new UnaryExpression(token.Type.ToUnaryOperatorType(), expr);
+            //var closeParen = parser.Match(TokenType.CloseParen);
+            return new Grouping(expr);
         }
     }
 }

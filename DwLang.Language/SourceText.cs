@@ -7,7 +7,7 @@ namespace DwLang.Language
     {
         private readonly string _source;
 
-        public int Position { get; private set; }
+        public int Position { get; set; }
 
         public SourceText(string source)
             => _source = $"{source}\0";

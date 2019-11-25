@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace DwLang.Language
 {
+    [DebuggerDisplay("{Type}")]
     public struct Token : IEquatable<Token>
     {
         public TokenType Type;

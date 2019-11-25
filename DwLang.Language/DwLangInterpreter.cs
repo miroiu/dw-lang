@@ -1,4 +1,5 @@
-﻿using DwLang.Language.Interpreter;
+﻿using DwLang.Language.Expressions;
+using DwLang.Language.Interpreter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,13 +28,17 @@ namespace DwLang.Language
             _output = output;
         }
 
-        public async Task Run(Expressions.Expression root)
+        public async Task Run(IExpressionProvider provider)
         {
             await Task.CompletedTask;
             using (var ctx = new ExecutionContext(_output))
             {
-                var evaluator = Evaluators[root.GetType()];
-                var _ = evaluator.Evaluate(root, ctx);
+                while (provider.HasNext)
+                {
+                    var root = provider.Next();
+                    var evaluator = Evaluators[root.GetType()];
+                    var _ = evaluator.Evaluate(root, ctx);
+                }
             }
         }
     }

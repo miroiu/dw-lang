@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace DwLang.Language
 {
-    public class DwLangParser
+    public class DwLangParser : IExpressionProvider
     {
-        public static readonly IDictionary<TokenType, IParslet> Parslets = typeof(DwLangInterpreter).Assembly.GetTypes()
+        public static readonly IDictionary<(TokenType Type, bool CanBeginWith), IParslet> Parslets = typeof(DwLangInterpreter).Assembly.GetTypes()
                  .Where(x => typeof(IParslet).IsAssignableFrom(x) && x.CustomAttributes.Any())
                  .SelectMany(x =>
                  {
@@ -18,26 +18,50 @@ namespace DwLang.Language
                          Type = x
                      }).ToList();
                  })
-                 .ToDictionary(x => x.Attribute.TokenType, x => Activator.CreateInstance(x.Type) as IParslet);
+                 .ToDictionary(x => (x.Attribute.TokenType, x.Attribute.CanBeginWith), x => Activator.CreateInstance(x.Type) as IParslet);
 
         private readonly DwLangLexer _lexer;
+
+        public bool HasNext { get; private set; }
 
         public DwLangParser(DwLangLexer lexer)
         {
             _lexer = lexer;
+            HasNext = _lexer.Peek().Type != TokenType.EndOfCode;
         }
 
-        public Token Current { get; private set; }
-
-        public Expression Parse()
+        public Expression Next()
         {
             var token = _lexer.Lex();
-            var parslet = Parslets[token.Type];
+            if (token.Type == TokenType.EndOfCode)
+            {
+                HasNext = false;
+                return default;
+            }
+
+            var parslet = Parslets[(token.Type, true)];
             var result = parslet.Accept(this, token);
 
             Match(TokenType.Semicolon);
 
+            HasNext = _lexer.Peek().Type != TokenType.EndOfCode;
+
             return result;
+        }
+
+        public Expression ParsePrimaryExpression()
+        {
+            var token = _lexer.Lex();
+
+            switch (token.Type)
+            {
+                case TokenType.OpenParen:
+                case TokenType.Identifier:
+                case TokenType.Number:
+                    return Parslets[(token.Type, false)].Accept(this, token);
+            }
+
+            throw new DwLangParserException($"Unexpected token {token.Type} in primary epression.");
         }
 
         public Token Match(TokenType tokenType)

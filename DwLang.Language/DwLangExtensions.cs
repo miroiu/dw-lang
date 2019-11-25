@@ -1,4 +1,6 @@
-﻿namespace DwLang.Language
+﻿using DwLang.Language.Expressions;
+
+namespace DwLang.Language
 {
     public static class DwLangExtensions
     {
@@ -42,5 +44,22 @@
 
         public static bool IsKeyword(this string value)
             => value.ToKeyword() != TokenType.Identifier;
+
+        public static UnaryOperatorType ToUnaryOperatorType(this TokenType type)
+        {
+            switch (type)
+            {
+                case TokenType.Print:
+                    return UnaryOperatorType.Print;
+
+                case TokenType.Sqr:
+                    return UnaryOperatorType.Sqr;
+
+                case TokenType.Exclamation:
+                    return UnaryOperatorType.Factorial;
+            }
+
+            throw new DwLangException($"{type} is not unary operator.");
+        }
     }
 }

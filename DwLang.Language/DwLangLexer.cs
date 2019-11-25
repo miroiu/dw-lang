@@ -3,6 +3,7 @@
     public partial class DwLangLexer
     {
         private readonly SourceText _text;
+        private int _returnTo;
 
         public DwLangLexer(SourceText text)
         {
@@ -161,6 +162,20 @@
                     throw new DwLangLexerException(_text.Line, _text.Column, $"Unexpected character {_text.Current}");
             }
 
+            return token;
+        }
+
+        public Token Peek(int offset = 1)
+        {
+            _returnTo = _text.Position;
+            Token token = default;
+
+            for (int i = 0; i < offset; i++)
+            {
+                token = Lex();
+            }
+
+            _text.Position = _returnTo;
             return token;
         }
     }
