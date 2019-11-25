@@ -23,7 +23,17 @@ namespace DwLang.Language.Interpreter
                     return new BinaryExpression(sumExpr, BinaryOperatorType.Divide, new Constant(new Deveel.Math.BigDecimal(casted.Expressions.Count)));
 
                 case VarArgsOperatorType.Med:
-                    return null;
+                    var n = casted.Expressions.Count;
+                    if (casted.Expressions.Count % 2 == 0)
+                    {
+                        // even
+                        var firstValue = casted.Expressions.ElementAt(n / 2 - 1);
+                        var secondValue = casted.Expressions.ElementAt((n + 1) / 2 - 1);
+                        return new VarArgsExpression(VarArgsOperatorType.Avg, new Expression[] {firstValue, secondValue});
+                    } else
+                    {
+                        return casted.Expressions.ElementAt(((n + 1)/2) - 1);
+                    }
             }
             return null;
         }
