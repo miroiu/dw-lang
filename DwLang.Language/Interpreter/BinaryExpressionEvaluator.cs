@@ -24,7 +24,13 @@ namespace DwLang.Language.Interpreter
                 case BinaryOperatorType.Pow:
                     return new Constant(BigMath.Pow(left, right.ToInt32(), ctx.GetMathContext()));
                 case BinaryOperatorType.Prm:
-                    return null; // TODO reuse expressions
+                    return new BinaryExpression(
+                        new UnaryExpression(UnaryOperatorType.Factorial, casted.Left),
+                        BinaryOperatorType.Divide, 
+                        new UnaryExpression(UnaryOperatorType.Factorial, new BinaryExpression(casted.Left, BinaryOperatorType.Minus, casted.Right))
+                        );
+                case BinaryOperatorType.Pwd:
+                    return null;
             }
             return null;
         }
