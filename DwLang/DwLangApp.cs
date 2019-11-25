@@ -9,11 +9,9 @@ namespace DwLang
         {
             RunCommand = new DwLangCommand(Run);
             Console = new DwLangConsole();
-            Interpreter = new DwLangInterpreter(Console);
         }
 
         public DwLangConsole Console { get; }
-        public DwLangInterpreter Interpreter { get; }
         public ICommand RunCommand { get; }
 
         private async void Run()
@@ -23,13 +21,15 @@ namespace DwLang
 
             var lexer = new DwLangLexer(source);
             var parser = new DwLangParser(lexer);
+
             var root = parser.Parse();
 
             PrintTokens(lexer);
 
             try
             {
-                await Interpreter.Run(root);
+                var interpreter = new DwLangInterpreter(Console);
+                await interpreter.Run(root);
             }
             catch (DwLangException ex)
             {

@@ -2,13 +2,13 @@
 {
     public class Assignment : Expression
     {
-        public Assignment(Expression identifier, Expression initializer)
+        public Assignment(Identifier identifier, Expression initializer)
         {
             Identifier = identifier;
             Initializer = initializer;
         }
 
-        public Expression Identifier { get; }
+        public Identifier Identifier { get; }
         public Expression Initializer { get; }
     }
 }
