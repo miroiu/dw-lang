@@ -6,8 +6,6 @@ namespace DwLang.Language
     {
         public TokenType Type;
         public string Text;
-        // TODO: Should this be evaluated and stored at lexer time or interpreter time?
-        public object Value;
 
         public override bool Equals(object obj)
             => obj is Token token ? token.Equals(this) : false;

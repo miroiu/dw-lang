@@ -15,24 +15,27 @@
 
         // Keywords
         Var,
-        Print,
 
         // Directives
         Set,
         Precision,
 
-        // Operators
+        // Binary operators
         Plus,
         Minus,
         X,
         Colon,
-        Exclamation,
         Equals,
-
         Pow,
         Prm,
         Pwd,
+
+        // Unary operators
+        Print,
+        Exclamation,
         Sqr,
+
+        // Variable arguments operators
         Avg,
         Med
     }

@@ -1,9 +1,7 @@
-﻿using DwLang.Language.Expressions;
-using DwLang.Language.Interpreter;
+﻿using DwLang.Language.Interpreter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace DwLang.Language
@@ -14,13 +12,15 @@ namespace DwLang.Language
 
         public static readonly IDictionary<Type, IExpressionEvaluator> Evaluators = typeof(DwLangInterpreter).Assembly.GetTypes()
                 .Where(x => typeof(IExpressionEvaluator).IsAssignableFrom(x) && x.CustomAttributes.Any())
-                .SelectMany(x => {
-                    return x.GetCustomAttributes(false).Select(y => new AttrWithType { 
-                        Attr = y as ExpressionEvaluatorAttribute,
+                .SelectMany(x =>
+                {
+                    return x.GetCustomAttributes(false).Select(y => new
+                    {
+                        Attribute = (ExpressionEvaluatorAttribute)y,
                         Type = x
                     }).ToList();
                 })
-                .ToDictionary(x => (x.Attr as ExpressionEvaluatorAttribute).ExpressionType, x => Activator.CreateInstance(x.Type) as IExpressionEvaluator);
+                .ToDictionary(x => x.Attribute.ExpressionType, x => Activator.CreateInstance(x.Type) as IExpressionEvaluator);
 
         public DwLangInterpreter(IOutputStream output)
         {
@@ -36,11 +36,5 @@ namespace DwLang.Language
                 var _ = evaluator.Evaluate(root, ctx);
             }
         }
-    }
-
-    internal class AttrWithType
-    {
-        public Type Type { get; set; }
-        public ExpressionEvaluatorAttribute Attr { get; set; }
     }
 }

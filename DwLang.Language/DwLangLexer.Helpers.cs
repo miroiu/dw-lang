@@ -38,7 +38,7 @@ namespace DwLang.Language
                     }
                     else
                     {
-                        break;
+                        throw new DwLangLexerException(_text.Line, _text.Column, $"Invalid number format.");
                     }
                 }
                 else if (char.IsDigit(stream.Current))
