@@ -7,7 +7,7 @@ namespace DwLang.Language.Interpreter
     {
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
-            return null;
+            return expression;
         }
     }
 }
