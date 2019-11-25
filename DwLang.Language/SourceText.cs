@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DwLang
+﻿namespace DwLang.Language
 {
     public class SourceText
     {

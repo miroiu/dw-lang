@@ -3,9 +3,11 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
-    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DwLang.Language\DwLang.Language.csproj" />
+  </ItemGroup>
 
 </Project>
