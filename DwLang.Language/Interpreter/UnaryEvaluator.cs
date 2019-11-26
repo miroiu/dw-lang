@@ -28,7 +28,7 @@ namespace DwLang.Language.Interpreter
         public static BigDecimal Factorial(BigDecimal n, MathContext ctx)
         {
             var factorial = BigDecimal.One;
-            for (var i = 1; i <= n; i++)
+            for (var i = 1; i <= n.ToInt32(); i++)
             {
                 factorial = BigMath.Multiply(factorial, new BigDecimal(i), ctx);
             }
