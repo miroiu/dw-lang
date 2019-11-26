@@ -16,9 +16,9 @@ namespace DwLang.Language.Parser
                 // No need for unary parslet
                 if (parser.Current.Type.IsUnaryOperator())
                 {
-                    var precedence = parser.Current.Type.ToOperatorPrecedence();
+                    var precedence = parser.Current.ToOperatorPrecedence();
                     var operatorToken = parser.Take();
-                    var operatorType = operatorToken.Type.ToUnaryOperatorType();
+                    var operatorType = operatorToken.ToUnaryOperatorType();
                     left = new UnaryExpression(operatorType, ParseBinaryExpression(parser, left, precedence))
                     {
                         Token = operatorToken
@@ -31,7 +31,7 @@ namespace DwLang.Language.Parser
                     if (parser.Current.Type == TokenType.Exclamation)
                     {
                         var operatorToken = parser.Take();
-                        var operatorType = operatorToken.Type.ToUnaryOperatorType();
+                        var operatorType = operatorToken.ToUnaryOperatorType();
                         left = new UnaryExpression(operatorType, left)
                         {
                             Token = operatorToken
@@ -44,14 +44,14 @@ namespace DwLang.Language.Parser
             {
                 if (parser.Current.Type.IsBinaryOperator())
                 {
-                    var precedence = parser.Current.Type.ToOperatorPrecedence();
+                    var precedence = parser.Current.ToOperatorPrecedence();
                     if (parentPrecedence >= precedence)
                     {
                         return left;
                     }
 
                     var operatorToken = parser.Take();
-                    var operatorType = operatorToken.Type.ToBinaryOperatorType();
+                    var operatorType = operatorToken.ToBinaryOperatorType();
                     left = new BinaryExpression(left, operatorType, ParseBinaryExpression(parser, parentPrecedence: precedence))
                     {
                         Token = operatorToken

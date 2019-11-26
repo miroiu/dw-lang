@@ -77,9 +77,9 @@ namespace DwLang.Language
             return false;
         }
 
-        public static UnaryOperatorType ToUnaryOperatorType(this TokenType type)
+        public static UnaryOperatorType ToUnaryOperatorType(this Token token)
         {
-            switch (type)
+            switch (token.Type)
             {
                 case TokenType.Print:
                     return UnaryOperatorType.Print;
@@ -91,12 +91,12 @@ namespace DwLang.Language
                     return UnaryOperatorType.Factorial;
             }
 
-            throw new DwLangException($"{type} is not an unary operator.");
+            throw new DwLangParserException(token, $"{token.Type} is not an unary operator.");
         }
 
-        public static BinaryOperatorType ToBinaryOperatorType(this TokenType type)
+        public static BinaryOperatorType ToBinaryOperatorType(this Token token)
         {
-            switch (type)
+            switch (token.Type)
             {
                 case TokenType.Plus:
                     return BinaryOperatorType.Plus;
@@ -120,12 +120,12 @@ namespace DwLang.Language
                     return BinaryOperatorType.Pwd;
             }
 
-            throw new DwLangException($"{type} is not a binary operator.");
+            throw new DwLangParserException(token, $"{token.Type} is not a binary operator.");
         }
 
-        public static OperatorPrecedence ToOperatorPrecedence(this TokenType type)
+        public static OperatorPrecedence ToOperatorPrecedence(this Token token)
         {
-            switch (type)
+            switch (token.Type)
             {
                 case TokenType.Plus:
                 case TokenType.Minus:
@@ -143,7 +143,7 @@ namespace DwLang.Language
                     return OperatorPrecedence.Prefix;
             }
 
-            throw new DwLangException($"{type} is not an operator.");
+            throw new DwLangParserException(token, $"{token.Type} is not an operator.");
         }
     }
 }
