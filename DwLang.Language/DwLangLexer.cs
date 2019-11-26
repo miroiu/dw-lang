@@ -150,6 +150,7 @@
                     if (_text.Current == 'x' && char.IsDigit(_text.Peek()))
                     {
                         token.Type = TokenType.X;
+                        _text.MoveNext();
                         break;
                     }
 

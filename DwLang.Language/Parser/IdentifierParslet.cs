@@ -5,9 +5,10 @@ namespace DwLang.Language.Parser
     [Parslet(TokenType.Identifier)]
     public class IdentifierParslet : IParslet
     {
-        public Expression Accept(DwLangParser parser, Token token)
+        public Expression Accept(DwLangParser parser)
         {
-            return new Identifier(token.Text);
+            var ident = parser.Take(TokenType.Identifier).Text;
+            return new Identifier(ident);
         }
     }
 }

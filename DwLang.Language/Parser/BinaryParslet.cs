@@ -2,19 +2,50 @@
 
 namespace DwLang.Language.Parser
 {
-    //[Parslet(TokenType.Plus)]
-    //[Parslet(TokenType.Minus)]
-    //[Parslet(TokenType.X)]
-    //[Parslet(TokenType.Colon)]
-    //[Parslet(TokenType.Pow)]
-    //[Parslet(TokenType.Prm)]
-    //[Parslet(TokenType.Pwd)]
+    // Random convention for the binary parser
+    [Parslet(TokenType.X)]
     public class BinaryParslet : IParslet
     {
-        public Expression Accept(DwLangParser parser, Token token)
+        public Expression Accept(DwLangParser parser)
+            => ParseBinaryExpression(parser);
+
+        private Expression ParseBinaryExpression(DwLangParser parser, Expression left = default, OperatorPrecedence parentPrecedence = OperatorPrecedence.None)
         {
-            var operatorType = token.Type.ToBinaryOperatorType();
-            return new BinaryExpression(default, operatorType, default);
+            if (left == default)
+            {
+                // No need for unary parslet
+                if (parser.Current.Type.IsUnaryOperator())
+                {
+                    var precedence = parser.Current.Type.ToOperatorPrecedence();
+                    var operatorType = parser.Take().Type.ToUnaryOperatorType();
+                    left = new UnaryExpression(operatorType, ParseBinaryExpression(parser, left, precedence));
+                }
+                else
+                {
+                    left = parser.ParsePrimaryExpression();
+                }
+            }
+
+            while (!parser.IsEndOfStatement())
+            {
+                if (parser.Current.Type.IsBinaryOperator())
+                {
+                    var precedence = parser.Current.Type.ToOperatorPrecedence();
+                    if (parentPrecedence >= precedence)
+                    {
+                        return left;
+                    }
+
+                    var operatorType = parser.Take().Type.ToBinaryOperatorType();
+                    left = new BinaryExpression(left, operatorType, ParseBinaryExpression(parser, parentPrecedence: precedence));
+                }
+                else
+                {
+                    return left;
+                }
+            }
+
+            return left;
         }
     }
 }

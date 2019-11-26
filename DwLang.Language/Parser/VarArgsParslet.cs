@@ -7,14 +7,13 @@ namespace DwLang.Language.Parser
     [Parslet(TokenType.Med)]
     public class VarArgsParslet : IParslet
     {
-        public Expression Accept(DwLangParser parser, Token token)
+        public Expression Accept(DwLangParser parser)
         {
-            var operatorType = token.Type == TokenType.Med ? VarArgsOperatorType.Med : VarArgsOperatorType.Avg;
+            var operatorType = parser.Take().Type == TokenType.Med ? VarArgsOperatorType.Med : VarArgsOperatorType.Avg;
 
             List<Expression> args = new List<Expression>();
 
-            Token peek = parser.Peek();
-            while (peek.Type != TokenType.Semicolon)
+            while (!parser.IsEndOfStatement())
             {
                 args.Add(parser.ParseExpression());
             }
