@@ -8,8 +8,7 @@ namespace DwLang.Language.Interpreter
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
             var casted = expression as Grouping;
-            var result = DwLangInterpreter.Evaluators[casted.Inner.GetType()].Evaluate(casted.Inner, ctx);
-
+            var result = Reducer.Reduce(casted.Inner, ctx);
             return result;
         }
     }

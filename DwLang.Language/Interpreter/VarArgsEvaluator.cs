@@ -51,8 +51,8 @@ namespace DwLang.Language.Interpreter
         }
         public int Compare(Expression x, Expression y)
         {
-            var v1 = DwLangInterpreter.Evaluators[x.GetType()].Evaluate(x, _ctx);
-            var v2 = DwLangInterpreter.Evaluators[y.GetType()].Evaluate(y, _ctx);
+            var v1 = Reducer.Reduce(x, _ctx);
+            var v2 = Reducer.Reduce(y, _ctx);
             if (v1 == null && v2 == null)
             {
                 return 0;

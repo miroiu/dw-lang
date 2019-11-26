@@ -8,7 +8,7 @@ namespace DwLang.Language.Interpreter
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
             var casted = expression as SetPrecision;
-            var result = ((Constant)DwLangInterpreter.Evaluators[casted.Precision.GetType()].Evaluate(casted.Precision, ctx)).Value.ToInt32();
+            var result = ((Constant)Reducer.Reduce(casted.Precision, ctx)).Value.ToInt32();
             ctx.SetCurrentPrecision(result);
             return null;
         }

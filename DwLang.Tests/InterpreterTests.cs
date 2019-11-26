@@ -359,10 +359,12 @@ namespace DwLang.Tests
 
         private BigDecimal EvaluateRec(Expression e, ExecutionContext ctx)
         {
-            if (e is Constant) {
-                return (e as Constant).Value;
+            var res = Reducer.Reduce(e, ctx);
+            if (res == null)
+            {
+                return null;
             }
-            return EvaluateRec(DwLangInterpreter.Evaluators[e.GetType()].Evaluate(e, ctx), ctx);
+            return (res as Constant).Value;
         }
     }
 }

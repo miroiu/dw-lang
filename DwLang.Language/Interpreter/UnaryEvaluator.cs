@@ -10,7 +10,7 @@ namespace DwLang.Language.Interpreter
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
             var casted = expression as UnaryExpression;
-            var value = (DwLangInterpreter.Evaluators[casted.Operand.GetType()].Evaluate(casted.Operand, ctx) as Constant).Value;
+            var value = (Reducer.Reduce(casted.Operand, ctx) as Constant).Value;
             switch (casted.OperatorType)
             {
                 case UnaryOperatorType.Factorial:

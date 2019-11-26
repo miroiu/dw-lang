@@ -11,7 +11,7 @@ namespace DwLang.Language.Interpreter
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
             var casted = expression as Assignment;
-            var result = (Constant)DwLangInterpreter.Evaluators[casted.Initializer.GetType()].Evaluate(casted.Initializer, ctx);
+            var result = (Constant)Reducer.Reduce(casted.Initializer, ctx);
             ctx.Assign(casted.Identifier.Name, result.Value);
             return null;
         }

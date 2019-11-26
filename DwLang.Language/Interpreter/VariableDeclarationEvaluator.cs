@@ -12,7 +12,7 @@ namespace DwLang.Language.Interpreter
             BigDecimal result = null;
             if (casted.Initializer != null)
             {
-                result = ((Constant)DwLangInterpreter.Evaluators[casted.Initializer.GetType()].Evaluate(casted.Initializer, ctx)).Value;
+                result = ((Constant)Reducer.Reduce(casted.Initializer, ctx)).Value;
             }
             ctx.Declare(casted.Identifier.Name, result);
             return null;

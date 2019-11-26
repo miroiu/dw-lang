@@ -10,8 +10,8 @@ namespace DwLang.Language.Interpreter
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
             var casted = expression as BinaryExpression;
-            var left = (DwLangInterpreter.Evaluators[casted.Left.GetType()].Evaluate(casted.Left, ctx) as Constant).Value;
-            var right = (DwLangInterpreter.Evaluators[casted.Right.GetType()].Evaluate(casted.Right, ctx) as Constant).Value;
+            var left = (Reducer.Reduce(casted.Left, ctx) as Constant).Value;
+            var right = (Reducer.Reduce(casted.Right, ctx) as Constant).Value;
             switch (casted.OperatorType)
             {
                 case BinaryOperatorType.Divide:
