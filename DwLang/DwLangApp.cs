@@ -20,8 +20,9 @@ namespace DwLang
         private async void Run()
         {
             var code = Console.ReadLine();
-            var source = new SourceText(code);
 
+            var preLexer = new DwLangPreLexer(code);
+            var source = preLexer.Sanitize();
             var lexer = new DwLangLexer(source);
             var parser = new DwLangParser(lexer);
 

@@ -79,6 +79,7 @@
                     return Lex();
 
                 case '/':
+                case '*':
                     ReadComment(_text);
                     break;
 

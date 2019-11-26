@@ -59,20 +59,22 @@ namespace DwLang.Language
             while (char.IsWhiteSpace(stream.Current) && stream.MoveNext()) ;
         }
 
+        // Starts with / or *
         private void ReadComment(SourceText stream)
         {
-            if (stream.Current == '*')
+            if (stream.Current == '/' && stream.MoveNext() && stream.Current == '*')
             {
-                while (stream.Current != '*' && stream.MoveNext()) ;
+                while (stream.MoveNext() && stream.Current != '*') ;
 
-                if (stream.Current == '\\')
+                if (stream.Current == '*' && stream.MoveNext() && stream.Current == '\\')
                 {
                     stream.MoveNext();
                     return;
                 }
             }
 
-            throw new DwLangLexerException(_text.Line, _text.Column, "Comment is not closed");
+            return;
+            throw new DwLangLexerException(_text.Line, _text.Column, "Wrongly formatted comment");
         }
     }
 }
