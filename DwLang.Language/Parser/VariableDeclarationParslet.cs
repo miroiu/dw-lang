@@ -5,13 +5,13 @@ namespace DwLang.Language.Parser
     [Parslet(TokenType.Var, true)]
     public class VariableDeclarationParslet : IParslet
     {
-        public Expression Accept(DwLangParser parser, Token token)
+        public Expression Accept(DwLangParser parser)
         {
-            var identifierToken = parser.Match(TokenType.Identifier);
+            parser.Take(TokenType.Var);
+            var identifierToken = parser.Take(TokenType.Identifier);
             Expression initializer = default;
 
-            var peek = parser.Peek();
-            if (peek.Type == TokenType.Equals)
+            if (parser.Current.Type == TokenType.Equals)
             {
                 parser.Take();
                 initializer = parser.ParseExpression();

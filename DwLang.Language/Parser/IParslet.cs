@@ -4,6 +4,6 @@ namespace DwLang.Language.Parser
 {
     public interface IParslet
     {
-        Expression Accept(DwLangParser parser, Token token);
+        Expression Accept(DwLangParser parser);
     }
 }

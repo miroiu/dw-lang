@@ -5,11 +5,14 @@ namespace DwLang.Language.Parser
     [Parslet(TokenType.Identifier, true)]
     public class AssignmentParslet : IParslet
     {
-        public Expression Accept(DwLangParser parser, Token token)
+        public Expression Accept(DwLangParser parser)
         {
-            parser.Match(TokenType.Equals);
+            var id = parser.Take(TokenType.Identifier);
+            parser.Take(TokenType.Equals);
+
             var expr = parser.ParseExpression();
-            var identifier = new Identifier(token.Text);
+            var identifier = new Identifier(id.Text);
+
             return new Assignment(identifier, expr);
         }
     }

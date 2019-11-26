@@ -12,7 +12,7 @@ namespace DwLang.Language.Interpreter
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
             var casted = expression as VarArgsExpression;
-            switch(casted.OperatorType)
+            switch (casted.OperatorType)
             {
                 case VarArgsOperatorType.Avg:
                     var sumExpr = casted.Arguments.First();
@@ -20,7 +20,9 @@ namespace DwLang.Language.Interpreter
                     {
                         sumExpr = new BinaryExpression(sumExpr, BinaryOperatorType.Plus, casted.Arguments.ElementAt(i));
                     }
-                    return new BinaryExpression(sumExpr, BinaryOperatorType.Divide, new Constant(new Deveel.Math.BigDecimal(casted.Arguments.Count)));
+
+                    var binary = new BinaryExpression(sumExpr, BinaryOperatorType.Divide, new Constant(new Deveel.Math.BigDecimal(casted.Arguments.Count)));
+                    return DwLangInterpreter.Evaluators[binary.GetType()].Evaluate(binary, ctx);
 
                 case VarArgsOperatorType.Med:
                     var n = casted.Arguments.Count;
@@ -32,10 +34,13 @@ namespace DwLang.Language.Interpreter
                         // even
                         var firstValue = args.ElementAt(n / 2 - 1);
                         var secondValue = args.ElementAt(n / 2);
-                        return new VarArgsExpression(VarArgsOperatorType.Avg, new Expression[] {firstValue, secondValue});
-                    } else
+
+                        var varArgs = new VarArgsExpression(VarArgsOperatorType.Avg, new Expression[] { firstValue, secondValue });
+                        return DwLangInterpreter.Evaluators[varArgs.GetType()].Evaluate(varArgs, ctx);
+                    }
+                    else
                     {
-                        return args.ElementAt(((n + 1)/2) - 1);
+                        return args.ElementAt(((n + 1) / 2) - 1);
                     }
             }
             return null;

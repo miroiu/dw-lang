@@ -49,12 +49,10 @@ namespace DwLang.Language
         public static bool IsKeyword(this string value)
             => value.ToKeyword() != TokenType.Identifier;
 
-        public static bool IsOperator(this TokenType type)
+        public static bool IsBinaryOperator(this TokenType type)
         {
             switch (type)
             {
-                case TokenType.Sqr:
-                case TokenType.Exclamation:
                 case TokenType.Plus:
                 case TokenType.Minus:
                 case TokenType.X:
@@ -62,6 +60,18 @@ namespace DwLang.Language
                 case TokenType.Pow:
                 case TokenType.Prm:
                 case TokenType.Pwd:
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsUnaryOperator(this TokenType type)
+        {
+            switch (type)
+            {
+                case TokenType.Sqr:
+                case TokenType.Exclamation:
                     return true;
             }
 

@@ -2,12 +2,13 @@
 
 namespace DwLang.Language.Parser
 {
-    [Parslet(TokenType.Set)]
+    [Parslet(TokenType.Set, true)]
     public class SetPrecisionParslet : IParslet
     {
-        public Expression Accept(DwLangParser parser, Token token)
+        public Expression Accept(DwLangParser parser)
         {
-            parser.Match(TokenType.Precision);
+            parser.Take(TokenType.Set);
+            parser.Take(TokenType.Precision);
             var value = parser.ParseExpression();
 
             return new SetPrecision(value);
