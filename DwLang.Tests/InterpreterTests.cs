@@ -238,8 +238,12 @@ namespace DwLang.Tests
         public void SetPrecision_Should_Pass()
         {
             var evaluator = new SetPrecisionEvaluator();
-            var c = new Constant(new BigDecimal(3.456789));
-            var input = new SetPrecision(new Constant(new BigDecimal(3)));
+            var c = new BinaryExpression(
+                new Constant(new BigDecimal(7)),
+                BinaryOperatorType.Divide,
+                new Constant(new BigDecimal(6))
+                );
+            var input = new SetPrecision(new Constant(new BigDecimal(4)));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNull(result);
             var evaluator2 = new UnaryEvaluator();
@@ -247,7 +251,7 @@ namespace DwLang.Tests
                 UnaryOperatorType.Print,
                 c);
             evaluator2.Evaluate(input2, _ctx);
-            Assert.AreEqual(_out.CurrentOutput, "3,46\r\n");
+            Assert.AreEqual(_out.CurrentOutput, "1,1667\r\n");
         }
 
         [Test, Order(7)]
