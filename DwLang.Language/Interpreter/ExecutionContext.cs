@@ -19,19 +19,11 @@ namespace DwLang.Language.Interpreter
 
         public void Assign(string name, BigDecimal value)
         {
-            if (!_values.ContainsKey(name))
-            {
-                throw new DwLangExecutionException($"Variable {name} is not initialized.");
-            }
             _values[name] = value;
         }
 
         public void Declare(string name, BigDecimal value)
         {
-            if (_values.ContainsKey(name))
-            {
-                throw new DwLangExecutionException($"Variable {name} is already initialized.");
-            }
             _values[name] = value;
         }
 
