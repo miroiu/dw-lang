@@ -41,7 +41,8 @@ namespace DwLang.Language.Interpreter
 
         public void Print(BigDecimal value)
         {
-            _out.WriteLine(value.ToString(_format));
+            var v = new BigDecimal(value.UnscaledValue, value.Scale, MathContext);
+            _out.WriteLine(v.ToString(_format));
         }
 
         public void SetCurrentPrecision(int precision)

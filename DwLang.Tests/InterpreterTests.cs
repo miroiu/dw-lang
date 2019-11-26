@@ -193,6 +193,63 @@ namespace DwLang.Tests
             Assert.AreEqual(casted.Value, new BigDecimal(4));
         }
 
+        [Test, Order(4)]
+        public void GroupingExpression_Should_Pass()
+        {
+            var evaluator = new GroupingEvaluator();
+            var input = new Grouping(new Constant(new BigDecimal(44)));
+            var result = evaluator.Evaluate(input, _ctx);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<Constant>(result);
+            var casted = result as Constant;
+            Assert.AreEqual(casted.Value, new BigDecimal(44));
+        }
+
+        [Test, Order(5)]
+        public void Identifier_Should_Pass()
+        {
+            GenerateVar("mxaa", new BigDecimal(16));
+            var evaluator = new IdentifierEvaluator();
+            var input = new Identifier("mxaa");
+            var result = evaluator.Evaluate(input, _ctx);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<Constant>(result);
+            var casted = result as Constant;
+            Assert.AreEqual(casted.Value, new BigDecimal(16));
+        }
+
+        [Test, Order(5)]
+        public void Identifier_Should_Fail()
+        {
+            GenerateVar("mxaa", new BigDecimal(16));
+            var evaluator = new IdentifierEvaluator();
+            var input = new Identifier("mxaav");
+            try
+            {
+                var result = evaluator.Evaluate(input, _ctx);
+                Assert.Fail();
+            } catch
+            {
+                Assert.Pass();
+            }
+        }
+
+        [Test, Order(6)]
+        public void SetPrecision_Should_Pass()
+        {
+            var evaluator = new SetPrecisionEvaluator();
+            var c = new Constant(new BigDecimal(3.456789));
+            var input = new SetPrecision(new Constant(new BigDecimal(3)));
+            var result = evaluator.Evaluate(input, _ctx);
+            Assert.IsNull(result);
+            var evaluator2 = new UnaryEvaluator();
+            var input2 = new UnaryExpression(
+                UnaryOperatorType.Print,
+                c);
+            evaluator2.Evaluate(input2, _ctx);
+            Assert.AreEqual(_out.CurrentOutput, "3,46\r\n");
+        }
+
         private void GenerateVar(string name, BigDecimal value)
         {
             var evaluator = new VariableDeclarationEvaluator();
