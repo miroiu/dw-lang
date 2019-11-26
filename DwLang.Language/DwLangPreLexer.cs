@@ -40,11 +40,8 @@ namespace DwLang.Language
       int? possiblyClosedAt = null;
       for (var i = 0; i < source.Length; i++)
       {
-        if (source[i] == '/')
-        {
-
           // OPENED
-          if (i < source.Length - 1 && source[i + 1] == '*')
+          if (i < source.Length - 1 && source[i] == '/' && source[i + 1] == '*')
           {
             if (openedAt != null && possiblyClosedAt != null)
             {
@@ -60,7 +57,7 @@ namespace DwLang.Language
           }
 
           // CLOSED
-          if (i > 0 && source[i - 1] == '*')
+          if (i > 0 && source[i] == '\\' && source[i - 1] == '*')
           {
             if (openedAt != null)
             {
@@ -68,8 +65,6 @@ namespace DwLang.Language
               continue;
             }
           }
-
-        }
       }
       if (openedAt != null)
       {
