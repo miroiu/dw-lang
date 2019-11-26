@@ -1,4 +1,5 @@
-﻿using Deveel.Math;
+﻿using System;
+using Deveel.Math;
 using DwLang.Language;
 using DwLang.Language.Expressions;
 using DwLang.Language.Interpreter;
@@ -190,7 +191,7 @@ namespace DwLang.Tests
                 new Identifier("max"));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNull(result);
-            Assert.AreEqual(_out.CurrentOutput, "2\r\n");
+            Assert.AreEqual(_out.CurrentOutput, "2" + Environment.NewLine);
         }
 
         [Test, Order(3)]
@@ -209,7 +210,7 @@ namespace DwLang.Tests
                 );
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNull(result);
-            Assert.AreEqual(_out.CurrentOutput, "6\r\n");
+            Assert.AreEqual(_out.CurrentOutput, "6" + Environment.NewLine);
         }
         [Test, Order(3)]
         public void UnaryExpression_Sqr_Should_Pass()
@@ -284,7 +285,7 @@ namespace DwLang.Tests
                 UnaryOperatorType.Print,
                 c);
             evaluator2.Evaluate(input2, _ctx);
-            Assert.AreEqual(_out.CurrentOutput, "1,1667\r\n");
+            Assert.AreEqual(_out.CurrentOutput, "1,1667" + Environment.NewLine);
         }
 
         [Test, Order(7)]

@@ -19,11 +19,17 @@ namespace DwLang.Language.Interpreter
 
         public void Assign(string name, BigDecimal value)
         {
+            if (!_values.ContainsKey(name)) {
+                throw new Exception("Variable is not declared");
+            }
             _values[name] = value;
         }
 
         public void Declare(string name, BigDecimal value)
         {
+            if (_values.ContainsKey(name)) {
+                throw new Exception("Variable is already declared");
+            }
             _values[name] = value;
         }
 
