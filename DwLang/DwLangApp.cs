@@ -1,4 +1,5 @@
 ﻿using DwLang.Language;
+using System;
 using System.Windows.Input;
 
 namespace DwLang
@@ -27,9 +28,21 @@ namespace DwLang
                 var interpreter = new DwLangInterpreter(Console);
                 await interpreter.Run(parser);
             }
-            catch (DwLangException ex)
+            catch (DwLangLexerException lexEx)
             {
-                throw ex;
+                Console.WriteLine($"[{lexEx.Line}, {lexEx.Column}]: {lexEx.Message}");
+            }
+            catch (DwLangException dwLangEx)
+            {
+                Console.WriteLine(dwLangEx.ToString());
+            }
+            catch (ArithmeticException arEx)
+            {
+                Console.WriteLine(arEx.Message);
+            }
+            catch
+            {
+                Console.WriteLine("Catastrophic failure!");
             }
         }
     }
