@@ -151,6 +151,20 @@ namespace DwLang.Tests
             Assert.AreEqual(casted.Value, new BigDecimal(16));
         }
 
+        [Test, Order(2)]
+        public void BinaryExpression_Pwd_Should_Pass()
+        {
+            var evaluator = new BinaryExpressionEvaluator();
+            var input = new BinaryExpression(
+                new Constant(new BigDecimal(52)),
+                BinaryOperatorType.Pwd,
+                new Constant(new BigDecimal(8)));
+            var result = evaluator.Evaluate(input, _ctx);
+            Assert.IsNotNull(result);
+            var number = EvaluateRec(result, _ctx);
+            Assert.AreEqual(number, new BigDecimal(54507958502660));
+        }
+
         [Test, Order(3)]
         public void UnaryExpression_Factorial_Should_Pass()
         {
@@ -180,9 +194,27 @@ namespace DwLang.Tests
         }
 
         [Test, Order(3)]
+        public void UnaryExpression_Print_Should_Pass_2()
+        {
+            var evaluator = new UnaryEvaluator();
+            var input = new UnaryExpression(
+                UnaryOperatorType.Print,
+                new Grouping(
+                    new BinaryExpression(
+                        new Constant(new BigDecimal(3)),
+                        BinaryOperatorType.Plus,
+                        new UnaryExpression(UnaryOperatorType.Sqr, new Constant(new BigDecimal(9)))
+                        )
+                    )
+                );
+            var result = evaluator.Evaluate(input, _ctx);
+            Assert.IsNull(result);
+            Assert.AreEqual(_out.CurrentOutput, "6\r\n");
+        }
+        [Test, Order(3)]
         public void UnaryExpression_Sqr_Should_Pass()
         {
-            GenerateVar("mxa", new BigDecimal(16));
+            GenerateVar("mxa", new BigDecimal(81));
             var evaluator = new UnaryEvaluator();
             var input = new UnaryExpression(
                 UnaryOperatorType.Sqr,
@@ -191,7 +223,7 @@ namespace DwLang.Tests
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<Constant>(result);
             var casted = result as Constant;
-            Assert.AreEqual(casted.Value, new BigDecimal(4));
+            Assert.AreEqual(casted.Value, new BigDecimal(9));
         }
 
         [Test, Order(4)]
