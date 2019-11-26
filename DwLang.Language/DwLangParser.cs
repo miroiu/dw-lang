@@ -33,25 +33,48 @@ namespace DwLang.Language
         public Expression Next()
         {
             var token = _lexer.Lex();
-            if (token.Type == TokenType.EndOfCode)
+            switch (token.Type)
             {
-                HasNext = false;
-                return default;
-            }
+                case TokenType.Var:
+                    return Parslets[(TokenType.Var, true)].Accept(this, token);
 
-            if (Parslets.TryGetValue((token.Type, true), out var parslet))
-            {
-                var result = parslet.Accept(this, token);
+                case TokenType.Identifier:
+                    return Parslets[(TokenType.Identifier, true)].Accept(this, token);
 
-                Match(TokenType.Semicolon);
-
-                HasNext = _lexer.Peek().Type != TokenType.EndOfCode;
-
-                return result;
+                //default:
+                //    return ParseBinaryExpression();
             }
 
             throw new DwLangParserException($"Unexpected token {token.Type} in primary epression.");
         }
+
+        //private Expression ParseBinaryExpression(Expression left = default, OperatorPrecedence)
+        //{
+
+        //}
+
+        //public Expression Next()
+        //{
+        //    var token = _lexer.Lex();
+        //    if (token.Type == TokenType.EndOfCode)
+        //    {
+        //        HasNext = false;
+        //        return default;
+        //    }
+
+        //    if (Parslets.TryGetValue((token.Type, true), out var parslet))
+        //    {
+        //        var result = parslet.Accept(this, token);
+
+        //        Match(TokenType.Semicolon);
+
+        //        HasNext = _lexer.Peek().Type != TokenType.EndOfCode;
+
+        //        return result;
+        //    }
+
+        //    throw new DwLangParserException($"Unexpected token {token.Type} in primary epression.");
+        //}
 
         public Expression ParsePrimaryExpression()
         {
