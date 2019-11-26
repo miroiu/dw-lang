@@ -9,21 +9,28 @@ namespace DwLang.Language.Interpreter
     {
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
-            var casted = expression as UnaryExpression;
-            var value = (Reducer.Reduce(casted.Operand, ctx) as Constant).Value;
-            switch (casted.OperatorType)
+            try
             {
-                case UnaryOperatorType.Factorial:
-                    return new Constant(Factorial(value, ctx.GetMathContext()));
+                var casted = expression as UnaryExpression;
+                var value = (Reducer.Reduce(casted.Operand, ctx) as Constant).Value;
+                switch (casted.OperatorType)
+                {
+                    case UnaryOperatorType.Factorial:
+                        return new Constant(Factorial(value, ctx.GetMathContext()));
 
-                case UnaryOperatorType.Sqr:
-                    return new Constant(Sqrt(value.ToBigInteger(), ctx.GetMathContext()));
+                    case UnaryOperatorType.Sqr:
+                        return new Constant(Sqrt(value.ToBigInteger(), ctx.GetMathContext()));
 
-                case UnaryOperatorType.Print:
-                    ctx.Print(value);
-                    return null;
+                    case UnaryOperatorType.Print:
+                        ctx.Print(value);
+                        return null;
+                }
+                return null;
             }
-            return null;
+            catch (Exception e)
+            {
+                throw new DwLangExecutionException(e, expression);
+            }
         }
 
         public static BigDecimal Factorial(BigDecimal n, MathContext ctx)

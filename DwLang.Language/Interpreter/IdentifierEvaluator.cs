@@ -1,4 +1,5 @@
 ﻿using DwLang.Language.Expressions;
+using System;
 
 namespace DwLang.Language.Interpreter
 {
@@ -7,8 +8,15 @@ namespace DwLang.Language.Interpreter
     {
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
-            var casted = expression as Identifier;
-            return new Constant(ctx.Get(casted.Name));
+            try
+            {
+                var casted = expression as Identifier;
+                return new Constant(ctx.Get(casted.Name));
+            }
+            catch (Exception e)
+            {
+                throw new DwLangExecutionException(e, expression);
+            }
         }
     }
 }

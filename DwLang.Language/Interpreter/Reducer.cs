@@ -9,11 +9,17 @@ namespace DwLang.Language.Interpreter
     {
         public static Expression Reduce(Expression e, ExecutionContext ctx)
         {
-            if (e == null || e is Constant)
+            try
             {
-                return e;
+                if (e == null || e is Constant)
+                {
+                    return e;
+                }
+                return Reduce(DwLangInterpreter.Evaluators[e.GetType()].Evaluate(e, ctx), ctx);
+            } catch (Exception ex)
+            {
+                throw new DwLangExecutionException(ex, e);
             }
-            return Reduce(DwLangInterpreter.Evaluators[e.GetType()].Evaluate(e, ctx), ctx);
         }
     }
 }
