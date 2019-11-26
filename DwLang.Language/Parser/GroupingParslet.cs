@@ -7,11 +7,14 @@ namespace DwLang.Language.Parser
     {
         public Expression Accept(DwLangParser parser)
         {
-            parser.Take(TokenType.OpenParen);
+            var openParenToken = parser.Take(TokenType.OpenParen);
             var expr = parser.ParseExpression();
             parser.Take(TokenType.CloseParen);
 
-            return new Grouping(expr);
+            return new Grouping(expr)
+            {
+                Token = openParenToken
+            };
         }
     }
 }

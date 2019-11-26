@@ -14,7 +14,9 @@
         {
             Token token = new Token
             {
-                Text = $"{_text.Current}"
+                Text = $"{_text.Current}",
+                Line = _text.Line,
+                Column = _text.Column
             };
 
             switch (_text.Current)

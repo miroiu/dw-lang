@@ -17,8 +17,12 @@ namespace DwLang.Language.Parser
                 if (parser.Current.Type.IsUnaryOperator())
                 {
                     var precedence = parser.Current.Type.ToOperatorPrecedence();
-                    var operatorType = parser.Take().Type.ToUnaryOperatorType();
-                    left = new UnaryExpression(operatorType, ParseBinaryExpression(parser, left, precedence));
+                    var operatorToken = parser.Take();
+                    var operatorType = operatorToken.Type.ToUnaryOperatorType();
+                    left = new UnaryExpression(operatorType, ParseBinaryExpression(parser, left, precedence))
+                    {
+                        Token = operatorToken
+                    };
                 }
                 else
                 {
@@ -26,8 +30,12 @@ namespace DwLang.Language.Parser
 
                     if (parser.Current.Type == TokenType.Exclamation)
                     {
-                        var operatorType = parser.Take().Type.ToUnaryOperatorType();
-                        left = new UnaryExpression(operatorType, left);
+                        var operatorToken = parser.Take();
+                        var operatorType = operatorToken.Type.ToUnaryOperatorType();
+                        left = new UnaryExpression(operatorType, left)
+                        {
+                            Token = operatorToken
+                        };
                     }
                 }
             }
@@ -42,8 +50,12 @@ namespace DwLang.Language.Parser
                         return left;
                     }
 
-                    var operatorType = parser.Take().Type.ToBinaryOperatorType();
-                    left = new BinaryExpression(left, operatorType, ParseBinaryExpression(parser, parentPrecedence: precedence));
+                    var operatorToken = parser.Take();
+                    var operatorType = operatorToken.Type.ToBinaryOperatorType();
+                    left = new BinaryExpression(left, operatorType, ParseBinaryExpression(parser, parentPrecedence: precedence))
+                    {
+                        Token = operatorToken
+                    };
                 }
                 else
                 {

@@ -8,12 +8,15 @@ namespace DwLang.Language.Parser
         public Expression Accept(DwLangParser parser)
         {
             var id = parser.Take(TokenType.Identifier);
-            parser.Take(TokenType.Equals);
+            var equalsToken = parser.Take(TokenType.Equals);
 
             var expr = parser.ParseExpression();
             var identifier = new Identifier(id.Text);
 
-            return new Assignment(identifier, expr);
+            return new Assignment(identifier, expr)
+            {
+                Token = equalsToken
+            };
         }
     }
 }

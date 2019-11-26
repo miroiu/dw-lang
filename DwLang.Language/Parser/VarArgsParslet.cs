@@ -9,7 +9,8 @@ namespace DwLang.Language.Parser
     {
         public Expression Accept(DwLangParser parser)
         {
-            var operatorType = parser.Take().Type == TokenType.Med ? VarArgsOperatorType.Med : VarArgsOperatorType.Avg;
+            var operatorToken = parser.Take();
+            var operatorType = operatorToken.Type == TokenType.Med ? VarArgsOperatorType.Med : VarArgsOperatorType.Avg;
 
             List<Expression> args = new List<Expression>();
 
@@ -18,7 +19,10 @@ namespace DwLang.Language.Parser
                 args.Add(parser.ParseExpression());
             }
 
-            return new VarArgsExpression(operatorType, args.ToArray());
+            return new VarArgsExpression(operatorType, args.ToArray())
+            {
+                Token = operatorToken
+            };
         }
     }
 }

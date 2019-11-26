@@ -7,11 +7,14 @@ namespace DwLang.Language.Parser
     {
         public Expression Accept(DwLangParser parser)
         {
-            parser.Take(TokenType.Set);
+            var setToken = parser.Take(TokenType.Set);
             parser.Take(TokenType.Precision);
             var value = parser.ParseExpression();
 
-            return new SetPrecision(value);
+            return new SetPrecision(value)
+            {
+                Token = setToken
+            };
         }
     }
 }

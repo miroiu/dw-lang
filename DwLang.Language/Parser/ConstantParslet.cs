@@ -9,13 +9,16 @@ namespace DwLang.Language.Parser
     {
         public Expression Accept(DwLangParser parser)
         {
-            var num = parser.Take(TokenType.Number).Text;
-            var result = BigDecimal.Parse(num, new NumberFormatInfo
+            var numToken = parser.Take(TokenType.Number);
+            var result = BigDecimal.Parse(numToken.Text, new NumberFormatInfo
             {
                 NumberDecimalSeparator = ","
             });
 
-            return new Constant(result);
+            return new Constant(result)
+            {
+                Token = numToken
+            };
         }
     }
 }

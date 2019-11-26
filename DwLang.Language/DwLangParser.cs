@@ -52,7 +52,7 @@ namespace DwLang.Language
                 return parslet.Accept(this);
             }
 
-            throw new DwLangParserException($"Unexpected token {Current.Type} in primary epression.");
+            throw new DwLangParserException(Current, $"Unexpected token {Current.Type} in primary epression.");
         }
 
         public Token Take(TokenType tokenType)
@@ -62,7 +62,7 @@ namespace DwLang.Language
                 return Take();
             }
 
-            throw new DwLangParserException($"Expected {tokenType} but found {Current.Type}.");
+            throw new DwLangParserException(Current, $"Expected {tokenType} but found {Current.Type}.");
         }
 
         public Token Peek(int offset = 1)
@@ -81,7 +81,7 @@ namespace DwLang.Language
         {
             if (Current.Type != type)
             {
-                throw new DwLangParserException($"Expected {type} but found {Current.Type}.");
+                throw new DwLangParserException(Current, $"Expected {type} but found {Current.Type}.");
             }
         }
 

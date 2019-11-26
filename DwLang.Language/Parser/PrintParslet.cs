@@ -7,9 +7,14 @@ namespace DwLang.Language.Parser
     {
         public Expression Accept(DwLangParser parser)
         {
-            var op = parser.Take(TokenType.Print).Type.ToUnaryOperatorType();
+            var opToken = parser.Take(TokenType.Print);
+            var op = opToken.Type.ToUnaryOperatorType();
             var expr = parser.ParseExpression();
-            return new UnaryExpression(op, expr);
+
+            return new UnaryExpression(op, expr)
+            {
+                Token = opToken
+            };
         }
     }
 }

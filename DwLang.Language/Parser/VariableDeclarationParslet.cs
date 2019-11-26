@@ -7,7 +7,7 @@ namespace DwLang.Language.Parser
     {
         public Expression Accept(DwLangParser parser)
         {
-            parser.Take(TokenType.Var);
+            var varToken = parser.Take(TokenType.Var);
             var identifierToken = parser.Take(TokenType.Identifier);
             Expression initializer = default;
 
@@ -17,7 +17,10 @@ namespace DwLang.Language.Parser
                 initializer = parser.ParseExpression();
             }
 
-            return new VariableDeclaration(new Identifier(identifierToken.Text), initializer);
+            return new VariableDeclaration(new Identifier(identifierToken.Text), initializer)
+            {
+                Token = varToken
+            };
         }
     }
 }

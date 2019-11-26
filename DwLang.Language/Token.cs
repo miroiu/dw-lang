@@ -3,11 +3,13 @@ using System.Diagnostics;
 
 namespace DwLang.Language
 {
-    [DebuggerDisplay("{Type}")]
+    [DebuggerDisplay("{Type}: {Text}")]
     public struct Token : IEquatable<Token>
     {
         public TokenType Type;
         public string Text;
+        public int Line;
+        public int Column;
 
         public override bool Equals(object obj)
             => obj is Token token ? token.Equals(this) : false;

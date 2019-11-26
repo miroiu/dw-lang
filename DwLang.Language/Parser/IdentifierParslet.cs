@@ -7,8 +7,11 @@ namespace DwLang.Language.Parser
     {
         public Expression Accept(DwLangParser parser)
         {
-            var ident = parser.Take(TokenType.Identifier).Text;
-            return new Identifier(ident);
+            var identToken = parser.Take(TokenType.Identifier);
+            return new Identifier(identToken.Text)
+            {
+                Token = identToken
+            };
         }
     }
 }
