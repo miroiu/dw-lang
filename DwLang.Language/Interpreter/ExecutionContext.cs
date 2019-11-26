@@ -8,10 +8,6 @@ namespace DwLang.Language.Interpreter
     public class ExecutionContext : IDisposable
     {
         private readonly IDictionary<string, BigDecimal> _values = new Dictionary<string, BigDecimal>();
-        private readonly NumberFormatInfo _format = new NumberFormatInfo
-        {
-            NumberDecimalSeparator = ","
-        };
         public static MathContext MathContext { get; private set; } = new MathContext(0, RoundingMode.Unnecessary);
         private readonly IOutputStream _out;
 
@@ -41,12 +37,14 @@ namespace DwLang.Language.Interpreter
 
         public void Print(BigDecimal value)
         {
-            _out.WriteLine(value.ToString(_format));
+            var v = new BigDecimal(value.UnscaledValue, value.Scale, MathContext);
+            var str = v.ToString().Replace('.', ',');
+            _out.WriteLine(str);
         }
 
         public void SetCurrentPrecision(int precision)
         {
-            MathContext = new MathContext(precision, RoundingMode.HalfUp);
+            MathContext = new MathContext(precision + 1, RoundingMode.HalfUp);
         }
 
         public MathContext GetMathContext()
