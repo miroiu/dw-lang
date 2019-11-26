@@ -30,7 +30,7 @@ namespace DwLang.Language
             _lexer = lexer;
 
             var peek = Peek();
-            HasNext = peek.Type != TokenType.EndOfCode && peek.Type != TokenType.Semicolon;
+            HasNext = peek.Type != TokenType.EndOfCode;
         }
 
         public Expression Next()
@@ -39,13 +39,7 @@ namespace DwLang.Language
             var result = Parslets[(Current.Type, true)].Accept(this);
 
             Check(TokenType.Semicolon);
-
-            //while(Current.Type == TokenType.Semicolon)
-            //{
-            //    Take();
-            //}
-
-            HasNext = Current.Type != TokenType.EndOfCode;
+            HasNext = Peek().Type != TokenType.EndOfCode;
 
             return result;
         }

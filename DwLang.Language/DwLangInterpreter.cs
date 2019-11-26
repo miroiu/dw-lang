@@ -35,7 +35,11 @@ namespace DwLang.Language
             {
                 while (provider.HasNext)
                 {
-                    Reducer.Reduce(provider.Next(), ctx);
+                    var expr = provider.Next();
+                    if (!(expr is EmptyExpression))
+                    {
+                        Reducer.Reduce(expr, ctx);
+                    }
                 }
             }
         }
