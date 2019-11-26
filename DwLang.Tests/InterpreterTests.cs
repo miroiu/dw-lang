@@ -151,6 +151,20 @@ namespace DwLang.Tests
             Assert.AreEqual(casted.Value, new BigDecimal(16));
         }
 
+        [Test, Order(2)]
+        public void BinaryExpression_Pwd_Should_Pass()
+        {
+            var evaluator = new BinaryExpressionEvaluator();
+            var input = new BinaryExpression(
+                new Constant(new BigDecimal(52)),
+                BinaryOperatorType.Pwd,
+                new Constant(new BigDecimal(8)));
+            var result = evaluator.Evaluate(input, _ctx);
+            Assert.IsNotNull(result);
+            var number = EvaluateRec(result, _ctx);
+            Assert.AreEqual(number, new BigDecimal(54507958502660));
+        }
+
         [Test, Order(3)]
         public void UnaryExpression_Factorial_Should_Pass()
         {
