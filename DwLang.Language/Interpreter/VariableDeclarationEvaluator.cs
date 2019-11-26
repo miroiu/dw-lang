@@ -21,6 +21,10 @@ namespace DwLang.Language.Interpreter
                 return null;
             }  catch (Exception e)
             {
+                if (e is DwLangExecutionException)
+                {
+                    throw e;
+                }
                 throw new DwLangExecutionException(e, expression);
             }
         }
