@@ -16,14 +16,14 @@ namespace DwLang.Tests
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            _out = new MockOutputStream();
-            _ctx = new ExecutionContext(_out);
+
         }
 
         [SetUp]
         public void Setup()
         {
-            _out.Clear();   
+            _out = new MockOutputStream();
+            _ctx = new ExecutionContext(_out);  
         }
 
         [Test, Order(0)]
@@ -40,6 +40,7 @@ namespace DwLang.Tests
         [Test, Order(1)]
         public void Assignment_Assign_Constant_To_Declared_Var_Should_Pass()
         {
+            VariableDeclaration_Declare_Should_Pass();
             var evaluator = new AssignmentEvaluator();
             var value = new BigDecimal(1);
             var input = new Assignment(new Identifier("aa"), new Constant(value));
