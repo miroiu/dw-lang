@@ -1,4 +1,5 @@
 ﻿using DwLang.Language;
+using DwLang.Language.Interpreter;
 using System;
 using System.Windows.Input;
 
@@ -31,6 +32,10 @@ namespace DwLang
             catch (DwLangLexerException lexEx)
             {
                 Console.WriteLine($"[{lexEx.Line}, {lexEx.Column}]: {lexEx.Message}");
+            }
+            catch (DwLangExecutionException dwLangExx)
+            {
+                Console.WriteLine($"[{dwLangExx.Expression.Token.Line}, {dwLangExx.Expression.Token.Column}]: {dwLangExx.Message}");
             }
             catch (DwLangException dwLangEx)
             {
