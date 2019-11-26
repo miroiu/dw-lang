@@ -35,9 +35,7 @@ namespace DwLang.Language
             {
                 while (provider.HasNext)
                 {
-                    var root = provider.Next();
-                    var evaluator = Evaluators[root.GetType()];
-                    var _ = evaluator.Evaluate(root, ctx);
+                    Reducer.Reduce(provider.Next(), ctx);
                 }
             }
         }

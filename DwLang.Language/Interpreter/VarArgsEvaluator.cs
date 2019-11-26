@@ -22,7 +22,7 @@ namespace DwLang.Language.Interpreter
                     }
 
                     var binary = new BinaryExpression(sumExpr, BinaryOperatorType.Divide, new Constant(new Deveel.Math.BigDecimal(casted.Arguments.Count)));
-                    return DwLangInterpreter.Evaluators[binary.GetType()].Evaluate(binary, ctx);
+                    return Reducer.Reduce(binary, ctx);
 
                 case VarArgsOperatorType.Med:
                     var n = casted.Arguments.Count;
@@ -36,7 +36,7 @@ namespace DwLang.Language.Interpreter
                         var secondValue = args.ElementAt(n / 2);
 
                         var varArgs = new VarArgsExpression(VarArgsOperatorType.Avg, new Expression[] { firstValue, secondValue });
-                        return DwLangInterpreter.Evaluators[varArgs.GetType()].Evaluate(varArgs, ctx);
+                        return Reducer.Reduce(varArgs, ctx);
                     }
                     else
                     {
