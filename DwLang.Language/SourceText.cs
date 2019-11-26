@@ -7,6 +7,14 @@ namespace DwLang.Language
     {
         private readonly string _source;
 
+        public string Text
+        {
+            get
+            {
+                return _source;
+            }
+        }
+
         public int Position { get; set; }
         public int Length => _source.Length;
 
