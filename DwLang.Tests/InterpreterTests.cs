@@ -263,15 +263,15 @@ namespace DwLang.Tests
                 VarArgsOperatorType.Avg,
                 new Expression[]
                 {
-                    new Constant(new BigDecimal(1)),
                     new Constant(new BigDecimal(2)),
-                    new Constant(new BigDecimal(3))
+                    new Constant(new BigDecimal(3)),
+                    new Constant(new BigDecimal(7))
                 }
                 );
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
             var number = EvaluateRec(result, _ctx);
-            Assert.AreEqual(number, new BigDecimal(2));
+            Assert.AreEqual(number, new BigDecimal(4));
         }
 
         [Test, Order(7)]
@@ -282,15 +282,37 @@ namespace DwLang.Tests
                 VarArgsOperatorType.Med,
                 new Expression[]
                 {
-                    new Constant(new BigDecimal(1)),
+                    new Constant(new BigDecimal(2)),
+                    new Constant(new BigDecimal(4)),
+                    new Constant(new BigDecimal(7)),
                     new Constant(new BigDecimal(8)),
-                    new Constant(new BigDecimal(3))
+                    new Constant(new BigDecimal(9))
                 }
                 );
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
             var number = EvaluateRec(result, _ctx);
-            Assert.AreEqual(number, new BigDecimal(8));
+            Assert.AreEqual(number, new BigDecimal(7));
+        }
+
+        [Test, Order(7)]
+        public void VarArgs_Med_Should_Pass_2()
+        {
+            var evaluator = new VarArgsEvaluator();
+            var input = new VarArgsExpression(
+                VarArgsOperatorType.Med,
+                new Expression[]
+                {
+                    new Constant(new BigDecimal(8)),
+                    new Constant(new BigDecimal(3)),
+                    new Constant(new BigDecimal(5)),
+                    new Constant(new BigDecimal(9))
+                }
+                );
+            var result = evaluator.Evaluate(input, _ctx);
+            Assert.IsNotNull(result);
+            var number = EvaluateRec(result, _ctx);
+            Assert.AreEqual(number, new BigDecimal(6.5));
         }
 
         private void GenerateVar(string name, BigDecimal value)

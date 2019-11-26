@@ -24,18 +24,62 @@ namespace DwLang.Language.Interpreter
 
                 case VarArgsOperatorType.Med:
                     var n = casted.Arguments.Count;
-                    if (casted.Arguments.Count % 2 == 0)
+
+                    var args = casted.Arguments.OrderBy(e => e, new ExpressionComparer(ctx)).ToList();
+
+                    if (args.Count % 2 == 0)
                     {
                         // even
-                        var firstValue = casted.Arguments.ElementAt(n / 2 - 1);
-                        var secondValue = casted.Arguments.ElementAt((n + 1) / 2 - 1);
+                        var firstValue = args.ElementAt(n / 2 - 1);
+                        var secondValue = args.ElementAt(n / 2);
                         return new VarArgsExpression(VarArgsOperatorType.Avg, new Expression[] {firstValue, secondValue});
                     } else
                     {
-                        return casted.Arguments.ElementAt(((n + 1)/2) - 1);
+                        return args.ElementAt(((n + 1)/2) - 1);
                     }
             }
             return null;
+        }
+    }
+
+    class ExpressionComparer : IComparer<Expression>
+    {
+        private readonly ExecutionContext _ctx;
+        public ExpressionComparer(ExecutionContext ctx)
+        {
+            _ctx = ctx;
+        }
+        public int Compare(Expression x, Expression y)
+        {
+            var v1 = DwLangInterpreter.Evaluators[x.GetType()].Evaluate(x, _ctx);
+            var v2 = DwLangInterpreter.Evaluators[y.GetType()].Evaluate(y, _ctx);
+            if (v1 == null && v2 == null)
+            {
+                return 0;
+            }
+            if (v1 == null && v2 != null)
+            {
+                return -1;
+            }
+            if (v1 != null && v2 == null)
+            {
+                return 1;
+            }
+            var c1 = (v1 as Constant).Value;
+            var c2 = (v2 as Constant).Value;
+            if (c1 == null && c2 == null)
+            {
+                return 0;
+            }
+            if (c1 == null && c2 != null)
+            {
+                return -1;
+            }
+            if (c1 != null && c2 == null)
+            {
+                return 1;
+            }
+            return c1.CompareTo(c2);
         }
     }
 }
