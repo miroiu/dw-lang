@@ -14,6 +14,11 @@ namespace DwLang.Tests.Mocks
             _output.AppendLine(line);
         }
 
+        public void Clear()
+        {
+            _output.Clear();
+        }
+
         public string CurrentOutput
         {
             get

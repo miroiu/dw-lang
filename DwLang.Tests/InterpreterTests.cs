@@ -23,7 +23,7 @@ namespace DwLang.Tests
         [SetUp]
         public void Setup()
         {
-            
+            _out.Clear();   
         }
 
         [Test, Order(0)]
@@ -221,9 +221,9 @@ namespace DwLang.Tests
         [Test, Order(5)]
         public void Identifier_Should_Fail()
         {
-            GenerateVar("mxaa", new BigDecimal(16));
+            GenerateVar("masdxaa", new BigDecimal(16));
             var evaluator = new IdentifierEvaluator();
-            var input = new Identifier("mxaav");
+            var input = new Identifier("mxaasdav");
             try
             {
                 var result = evaluator.Evaluate(input, _ctx);
