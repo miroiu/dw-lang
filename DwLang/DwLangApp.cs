@@ -1,5 +1,6 @@
 ﻿using DwLang.Language;
 using DwLang.Language.Interpreter;
+using DwLang.Language.Parser;
 using System;
 using System.Windows.Input;
 
@@ -37,13 +38,13 @@ namespace DwLang
             {
                 Console.WriteLine($"[{dwLangExx.Expression.Token.Line}, {dwLangExx.Expression.Token.Column}]: {dwLangExx.Message}");
             }
+            catch (DwLangParserException dwLangParserEx)
+            {
+                Console.WriteLine($"[{dwLangParserEx.Token.Line}, {dwLangParserEx.Token.Column}]: {dwLangParserEx.Message}");
+            }
             catch (DwLangException dwLangEx)
             {
                 Console.WriteLine(dwLangEx.ToString());
-            }
-            catch (ArithmeticException arEx)
-            {
-                Console.WriteLine(arEx.Message);
             }
             catch
             {
