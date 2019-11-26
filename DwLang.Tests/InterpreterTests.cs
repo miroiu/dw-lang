@@ -250,6 +250,44 @@ namespace DwLang.Tests
             Assert.AreEqual(_out.CurrentOutput, "3,46\r\n");
         }
 
+        [Test, Order(7)]
+        public void VarArgs_Avg_Should_Pass()
+        {
+            var evaluator = new VarArgsEvaluator();
+            var input = new VarArgsExpression(
+                VarArgsOperatorType.Avg,
+                new Expression[]
+                {
+                    new Constant(new BigDecimal(1)),
+                    new Constant(new BigDecimal(2)),
+                    new Constant(new BigDecimal(3))
+                }
+                );
+            var result = evaluator.Evaluate(input, _ctx);
+            Assert.IsNotNull(result);
+            var number = EvaluateRec(result, _ctx);
+            Assert.AreEqual(number, new BigDecimal(2));
+        }
+
+        [Test, Order(7)]
+        public void VarArgs_Med_Should_Pass()
+        {
+            var evaluator = new VarArgsEvaluator();
+            var input = new VarArgsExpression(
+                VarArgsOperatorType.Med,
+                new Expression[]
+                {
+                    new Constant(new BigDecimal(1)),
+                    new Constant(new BigDecimal(8)),
+                    new Constant(new BigDecimal(3))
+                }
+                );
+            var result = evaluator.Evaluate(input, _ctx);
+            Assert.IsNotNull(result);
+            var number = EvaluateRec(result, _ctx);
+            Assert.AreEqual(number, new BigDecimal(8));
+        }
+
         private void GenerateVar(string name, BigDecimal value)
         {
             var evaluator = new VariableDeclarationEvaluator();
@@ -258,6 +296,14 @@ namespace DwLang.Tests
             var evaluator2 = new AssignmentEvaluator();
             var input2 = new Assignment(new Identifier(name), new Constant(value));
             evaluator2.Evaluate(input2, _ctx);
+        }
+
+        private BigDecimal EvaluateRec(Expression e, ExecutionContext ctx)
+        {
+            if (e is Constant) {
+                return (e as Constant).Value;
+            }
+            return EvaluateRec(DwLangInterpreter.Evaluators[e.GetType()].Evaluate(e, ctx), ctx);
         }
     }
 }
