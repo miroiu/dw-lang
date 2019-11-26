@@ -7,7 +7,7 @@ namespace DwLang.Language.Parser
     {
         public Expression Accept(DwLangParser parser, Token token)
         {
-            var expr = parser.ParsePrimaryExpression();
+            var expr = parser.ParseExpression();
             parser.Match(TokenType.CloseParen);
             return new Grouping(expr);
         }

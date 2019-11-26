@@ -8,7 +8,7 @@ namespace DwLang.Language.Parser
         public Expression Accept(DwLangParser parser, Token token)
         {
             parser.Match(TokenType.Equals);
-            var expr = parser.ParsePrimaryExpression();
+            var expr = parser.ParseExpression();
             var identifier = new Identifier(token.Text);
             return new Assignment(identifier, expr);
         }
