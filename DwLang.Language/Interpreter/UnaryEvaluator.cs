@@ -1,5 +1,6 @@
 ﻿using Deveel.Math;
 using DwLang.Language.Expressions;
+using System;
 
 namespace DwLang.Language.Interpreter
 {
@@ -35,24 +36,9 @@ namespace DwLang.Language.Interpreter
             return factorial;
         }
 
-        public static BigInteger Sqrt(BigInteger n, MathContext ctx)
+        public static BigDecimal Sqrt(BigInteger n, MathContext ctx)
         {
-            BigInteger a = BigInteger.One;
-            BigInteger b = BigMath.Add(BigMath.ShiftRight(a, 5), BigInteger.Parse("8"), ctx);
-
-            while (b.CompareTo(a) >= 0)
-            {
-                var mid = BigMath.ShiftRight(BigMath.Add(a, b, ctx), 1);
-
-                if (BigMath.Multiply(mid, mid, ctx).CompareTo(n) > 0)
-                {
-                    b = BigMath.Subtract(mid, BigInteger.One, ctx);
-                } else
-                {
-                    a = BigMath.Add(mid, BigInteger.One, ctx);
-                }
-            }
-            return BigMath.Subtract(a, BigInteger.One, ctx);
+            return new BigDecimal(Math.Sqrt(n.ToDouble()), ctx);
         }
     }
 }
