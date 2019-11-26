@@ -1,4 +1,6 @@
-﻿using DwLang.Language.Expressions;
+﻿using Deveel.Math;
+using DwLang.Language.Expressions;
+using System.Globalization;
 
 namespace DwLang.Language.Parser
 {
@@ -8,7 +10,10 @@ namespace DwLang.Language.Parser
         public Expression Accept(DwLangParser parser)
         {
             var num = parser.Take(TokenType.Number).Text;
-            var result = Deveel.Math.BigDecimal.Parse(num);
+            var result = BigDecimal.Parse(num, new NumberFormatInfo
+            {
+                NumberDecimalSeparator = ","
+            });
 
             return new Constant(result);
         }

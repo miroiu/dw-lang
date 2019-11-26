@@ -27,7 +27,7 @@ namespace DwLang
         public string ReadLine()
         {
             var input = Input;
-            Input = default;
+            //Input = default;
             return input;
         }
     }

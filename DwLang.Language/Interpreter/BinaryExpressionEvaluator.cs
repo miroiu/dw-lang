@@ -1,6 +1,5 @@
 ﻿using Deveel.Math;
 using DwLang.Language.Expressions;
-using System.Collections.Generic;
 
 namespace DwLang.Language.Interpreter
 {
@@ -15,7 +14,9 @@ namespace DwLang.Language.Interpreter
             switch (casted.OperatorType)
             {
                 case BinaryOperatorType.Divide:
-                    return new Constant(BigMath.Divide(left, right, ctx.GetMathContext()));
+                    var prevCtx = ctx.GetMathContext();
+                    var context = new MathContext(prevCtx.Precision != 0 ? prevCtx.Precision : 1000, prevCtx.RoundingMode == RoundingMode.Unnecessary ? RoundingMode.HalfEven : prevCtx.RoundingMode);
+                    return new Constant(BigMath.Divide(left, right, context));
                 case BinaryOperatorType.Minus:
                     return new Constant(BigMath.Subtract(left, right, ctx.GetMathContext()));
                 case BinaryOperatorType.Multiply:

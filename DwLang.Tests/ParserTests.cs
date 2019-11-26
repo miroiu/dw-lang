@@ -9,7 +9,7 @@ namespace DwLang.Tests
         {
         }
 
-        [Test]
+        [Test, TestCase("print")]
         public void Test1()
         {
             Assert.Pass();

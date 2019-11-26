@@ -22,22 +22,25 @@
         </Grid.ColumnDefinitions>
 
         <TextBox Text="{Binding Console.Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                MinHeight="25"
-                MaxHeight="200"
-                FontSize="14"
-                Margin="0 0 0 5"
-                VerticalScrollBarVisibility="Auto"
-                BorderBrush="Orange"
-                AcceptsReturn="True" />
+                 MinHeight="150"
+                 MaxHeight="200"
+                 FontSize="14"
+                 Margin="0 0 0 5"
+                 VerticalScrollBarVisibility="Auto"
+                 BorderBrush="Orange"
+                 AcceptsReturn="True" />
 
         <TextBox Text="{Binding Console.Output, Mode=OneWay}"
-                MinHeight="25"
-                IsReadOnly="True"
-                Grid.Row="1"
-                FontSize="14"
-                Grid.ColumnSpan="2"
-                AcceptsReturn="True"
-                BorderBrush="LightGray" />
+                 MinHeight="25"
+                 IsReadOnly="True"
+                 Grid.Row="1"
+                 FontSize="14"
+                 Grid.ColumnSpan="2"
+                 AcceptsReturn="True"
+                 Cursor="Arrow"
+                 BorderBrush="LightGray"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto" />
 
         <Button Command="{Binding RunCommand}" BorderBrush="Orange" Background="LightGray" Padding="20 0" Margin="5 0 0 5" Content="Run" Grid.Column="1" FontSize="14" />
     </Grid>
