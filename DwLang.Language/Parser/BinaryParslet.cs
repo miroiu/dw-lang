@@ -23,6 +23,12 @@ namespace DwLang.Language.Parser
                 else
                 {
                     left = parser.ParsePrimaryExpression();
+
+                    if (parser.Current.Type == TokenType.Exclamation)
+                    {
+                        var operatorType = parser.Take().Type.ToUnaryOperatorType();
+                        left = new UnaryExpression(operatorType, left);
+                    }
                 }
             }
 

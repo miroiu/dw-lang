@@ -71,7 +71,6 @@ namespace DwLang.Language
             switch (type)
             {
                 case TokenType.Sqr:
-                case TokenType.Exclamation:
                     return true;
             }
 
