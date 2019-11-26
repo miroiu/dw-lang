@@ -1,12 +1,17 @@
 ﻿using Deveel.Math;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace DwLang.Language.Interpreter
 {
     public class ExecutionContext : IDisposable
     {
         private readonly IDictionary<string, BigDecimal> _values = new Dictionary<string, BigDecimal>();
+        private readonly NumberFormatInfo _format = new NumberFormatInfo
+        {
+            NumberDecimalSeparator = ","
+        };
         public static MathContext MathContext { get; private set; } = new MathContext(0, RoundingMode.Unnecessary);
         private readonly IOutputStream _out;
 
@@ -36,7 +41,7 @@ namespace DwLang.Language.Interpreter
 
         public void Print(BigDecimal value)
         {
-            _out.WriteLine(value.ToString()); // TODO comma is the decimal separator
+            _out.WriteLine(value.ToString(_format));
         }
 
         public void SetCurrentPrecision(int precision)
