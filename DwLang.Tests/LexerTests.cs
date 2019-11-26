@@ -21,7 +21,7 @@ namespace DwLang.Tests
     [Test]
     public void Comments_Should_Be_Ignored()
     {
-      var input = "var a = 2;"+Environment.NewLine+"asd/* print a;";
+      var input = "var a = 2;"+Environment.NewLine+"/*asd*/asd*/ print a;";
       var preLexer = new DwLangPreLexer(input);
       var source = preLexer.Sanitize();
       var lexer = new DwLangLexer(source);
