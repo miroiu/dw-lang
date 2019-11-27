@@ -28,9 +28,8 @@ namespace DwLang.Language
             _output = output;
         }
 
-        public async Task Run(IExpressionProvider provider)
+        public void Run(IExpressionProvider provider)
         {
-            await Task.CompletedTask;
             using (var ctx = new ExecutionContext(_output))
             {
                 while (provider.HasNext)

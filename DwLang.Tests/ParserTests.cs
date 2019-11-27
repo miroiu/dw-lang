@@ -8,11 +8,5 @@ namespace DwLang.Tests
         public void Setup()
         {
         }
-
-        [Test, TestCase("print")]
-        public void Test1()
-        {
-            Assert.Pass();
-        }
     }
 }

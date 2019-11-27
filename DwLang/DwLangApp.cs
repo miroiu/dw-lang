@@ -29,7 +29,7 @@ namespace DwLang
             try
             {
                 var interpreter = new DwLangInterpreter(Console);
-                await interpreter.Run(parser);
+                interpreter.Run(parser);
             }
             catch (DwLangLexerException lexEx)
             {
