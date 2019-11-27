@@ -8,7 +8,7 @@ namespace DwLang.Language.Interpreter
     public class ExecutionContext : IDisposable
     {
         private readonly IDictionary<string, BigDecimal> _values = new Dictionary<string, BigDecimal>();
-        public static MathContext MathContext { get; private set; } = new MathContext(0, RoundingMode.Unnecessary);
+        public MathContext MathContext { get; private set; } = new MathContext(0, RoundingMode.Unnecessary);
         private readonly IOutputStream _out;
 
         public ExecutionContext(IOutputStream outs)
