@@ -42,7 +42,14 @@ namespace DwLang.Language.Interpreter
 
         public void SetCurrentPrecision(int precision)
         {
-            MathContext = new MathContext(precision, RoundingMode.HalfUp);
+            if (precision == 0)
+            {
+                MathContext = new MathContext(0, RoundingMode.Unnecessary);
+            }
+            else
+            {
+                MathContext = new MathContext(precision, RoundingMode.HalfUp);
+            }
         }
 
         public MathContext GetMathContext()
