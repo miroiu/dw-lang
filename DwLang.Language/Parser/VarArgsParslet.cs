@@ -14,7 +14,7 @@ namespace DwLang.Language.Parser
 
             List<Expression> args = new List<Expression>();
 
-            while (!parser.IsEndOfStatement())
+            while (!parser.IsEndOfStatement() && parser.Current.Type != TokenType.CloseParen)
             {
                 args.Add(parser.ParseExpression());
             }
