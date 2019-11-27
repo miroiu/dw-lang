@@ -19,7 +19,7 @@ namespace DwLang.Language.Interpreter
                     case BinaryOperatorType.Divide:
                         var tempContext = new MathContext(ctx.GetMathContext().Precision + 1, ctx.GetMathContext().RoundingMode);
                         var result = BigMath.Divide(left, right, tempContext);
-                        return new Constant(new BigDecimal(result, result.Scale, ctx.GetMathContext()));
+                        return new Constant(result);
                     case BinaryOperatorType.Minus:
                         return new Constant(BigMath.Subtract(left, right, ctx.GetMathContext()));
                     case BinaryOperatorType.Multiply:
