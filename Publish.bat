@@ -1,1 +1,1 @@
-dotnet publish -c Release --framework netcoreapp3.0 -o pub DwLang /p:DebugType=None
+dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:DebugType=None /p:PublishTrimmed=true -o pub DwLang 
