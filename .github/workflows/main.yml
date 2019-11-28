@@ -9,7 +9,7 @@ on:
 jobs:
   release:
     name: 'Release'
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.0.100'
-    - run: dotnet publish -c Release --framework netcoreapp3.0 -o pub DwLang /p:DebugType=None     
+    - run: dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:DebugType=None /p:PublishTrimmed=true -o pub DwLang     
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -28,3 +28,13 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
+    - name: Upload Release
+      id: upload-release 
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./pub/DwLang.exe
+        asset_name: DwLang.exe
+        asset_content_type: application/octet-stream
