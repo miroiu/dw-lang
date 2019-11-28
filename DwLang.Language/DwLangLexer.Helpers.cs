@@ -50,7 +50,10 @@ namespace DwLang.Language
                     break;
                 }
             }
-
+            if (stream.Peek(-1) == ',')
+            {
+                throw new DwLangLexerException(_text.Line, _text.Column, $"Invalid number format.");
+            }
             return builder.ToString();
         }
 
