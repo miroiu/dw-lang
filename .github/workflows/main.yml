@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.0.100'
-    - run: dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true -o pub DwLang     
+    - run: dotnet publish -c Release --framework netcoreapp3.0 -o pub DwLang /p:DebugType=None     
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
