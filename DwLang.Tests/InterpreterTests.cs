@@ -285,7 +285,7 @@ namespace DwLang.Tests
                 UnaryOperatorType.Print,
                 c);
             evaluator2.Evaluate(input2, _ctx);
-            Assert.AreEqual(_out.CurrentOutput, "1,167" + Environment.NewLine);
+            Assert.AreEqual(_out.CurrentOutput, "1,1667" + Environment.NewLine);
         }
 
         [Test, Order(7)]

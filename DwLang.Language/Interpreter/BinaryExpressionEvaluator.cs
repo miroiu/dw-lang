@@ -14,6 +14,7 @@ namespace DwLang.Language.Interpreter
                 var casted = expression as BinaryExpression;
                 var left = (Reducer.Reduce(casted.Left, ctx) as Constant).Value;
                 var right = (Reducer.Reduce(casted.Right, ctx) as Constant).Value;
+
                 switch (casted.OperatorType)
                 {
                     case BinaryOperatorType.Divide:
@@ -25,7 +26,7 @@ namespace DwLang.Language.Interpreter
                         {
                             result = BigMath.Divide(left, right, ctx.GetMathContext());
                         }
-                        return new Constant(result);
+                        return new Constant(BigMath.StripTrailingZeros(result));
                     case BinaryOperatorType.Minus:
                         return new Constant(BigMath.Subtract(left, right, ctx.GetMathContext()));
                     case BinaryOperatorType.Multiply:
@@ -57,7 +58,8 @@ namespace DwLang.Language.Interpreter
                         }
                         return final;
                 }
-                return null;
+
+                throw new DwLangExecutionException($"Operator type {casted.OperatorType} is not defined.", casted);
             }
             catch (Exception e)
             {

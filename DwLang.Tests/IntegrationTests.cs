@@ -39,6 +39,7 @@ namespace DwLang.Tests
         [TestCase("print 5 + 3;", new string[] { "8" })]
         [TestCase("print 5 - 3;", new string[] { "2" })]
         [TestCase("print 5 : 2;", new string[] { "2,5" })]
+        [TestCase("print 3 : 3;", new string[] { "1" })]
         [TestCase("print 5 x 2;", new string[] { "10" })]
         [TestCase("print 2pow3;", new string[] { "8" })]
         [TestCase("print 2 pow3;", new string[] { "8" })]
@@ -53,10 +54,11 @@ namespace DwLang.Tests
         [TestCase("print avg 2 3 7;", new string[] { "4" })]
         [TestCase("print med 2 4 7 8 9;", new string[] { "7" })]
         [TestCase("print med 8 3 5 9;", new string[] { "6,5" })]
-        [TestCase("print (med ((((8 3 5 9)))) + 0,5);", new string[] { "7" })]
+        [TestCase("print (med 8 3 5 9) + 0,5;", new string[] { "7" })]
         [TestCase("/* some comment *\\ print 5; *\\ print 3;", new string[] { "3" })]
         [TestCase("/* var val = 2; print val;/* print val; *\\ print 4;", new string[] { "4" })]
         [TestCase("/* var val = 2; print val;/* print \r\n val; *\\ print 4;", new string[] { "4" })]
+        [TestCase("set precision 4; print 5 : 2;", new string[] { "2,5" })]
         public void Everything(string input, string[] expected)
         {
             var result = App.Run(input);

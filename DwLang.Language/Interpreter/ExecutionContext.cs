@@ -1,7 +1,6 @@
 ﻿using Deveel.Math;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace DwLang.Language.Interpreter
 {
@@ -15,7 +14,6 @@ namespace DwLang.Language.Interpreter
         {
             _out = outs;
         }
-
 
         public void Assign(string name, BigDecimal value)
         {
