@@ -19,28 +19,36 @@ namespace DwLang.Language.Interpreter
                 {
                     case BinaryOperatorType.Divide:
                         BigDecimal result;
-                        if (ctx.GetMathContext().Precision != 0)
+                        var mathCtx = ctx.GetMathContext();
+                        if (mathCtx.Precision != 0)
                         {
-                            result = BigMath.Divide(left, right, ctx.GetMathContext().Precision, ctx.GetMathContext().RoundingMode);
-                        } else
+                            result = BigMath.Divide(left, right, mathCtx.Precision, mathCtx.RoundingMode);
+                        }
+                        else
                         {
-                            result = BigMath.Divide(left, right, ctx.GetMathContext());
+                            result = BigMath.Divide(left, right, mathCtx);
                         }
                         return new Constant(BigMath.StripTrailingZeros(result));
+
                     case BinaryOperatorType.Minus:
                         return new Constant(BigMath.StripTrailingZeros(BigMath.Subtract(left, right, ctx.GetMathContext())));
+
                     case BinaryOperatorType.Multiply:
                         return new Constant(BigMath.StripTrailingZeros(BigMath.Multiply(left, right, ctx.GetMathContext())));
+
                     case BinaryOperatorType.Plus:
                         return new Constant(BigMath.StripTrailingZeros(BigMath.Add(left, right, ctx.GetMathContext())));
+
                     case BinaryOperatorType.Pow:
                         return new Constant(BigMath.StripTrailingZeros(BigMath.Pow(left, right.ToInt32(), ctx.GetMathContext())));
+
                     case BinaryOperatorType.Prm:
                         return new BinaryExpression(
                             new UnaryExpression(UnaryOperatorType.Factorial, casted.Left),
                             BinaryOperatorType.Divide,
                             new UnaryExpression(UnaryOperatorType.Factorial, new BinaryExpression(casted.Left, BinaryOperatorType.Minus, casted.Right))
                             );
+
                     case BinaryOperatorType.Pwd:
                         var t = right.ToInt32();
                         BinaryExpression final = null;

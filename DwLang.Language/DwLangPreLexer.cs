@@ -8,12 +8,6 @@ namespace DwLang.Language
 {
     public class DwLangPreLexer
     {
-        private struct Comment
-        {
-            public int Position;
-            public bool IsOpening;
-        }
-
         private readonly SourceText _code;
 
         public DwLangPreLexer(string code)
