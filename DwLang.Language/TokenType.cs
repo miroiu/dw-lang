@@ -15,6 +15,7 @@
 
         // Keywords
         Var,
+        Cls,
 
         // Directives
         Set,

@@ -23,6 +23,13 @@ namespace DwLang
 
             OnPropertyChanged(nameof(Output));
         }
+        
+        public void Clear()
+        {
+            _string.Clear();
+
+            OnPropertyChanged(nameof(Output));
+        }
 
         public string ReadLine()
         {

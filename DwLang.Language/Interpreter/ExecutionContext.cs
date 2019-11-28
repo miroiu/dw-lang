@@ -18,7 +18,8 @@ namespace DwLang.Language.Interpreter
 
         public void Assign(string name, BigDecimal value)
         {
-            if (!_values.ContainsKey(name)) {
+            if (!_values.ContainsKey(name))
+            {
                 throw new Exception("Variable is not declared");
             }
             _values[name] = value;
@@ -26,7 +27,8 @@ namespace DwLang.Language.Interpreter
 
         public void Declare(string name, BigDecimal value)
         {
-            if (_values.ContainsKey(name)) {
+            if (_values.ContainsKey(name))
+            {
                 throw new Exception("Variable is already declared");
             }
             _values[name] = value;
@@ -37,6 +39,11 @@ namespace DwLang.Language.Interpreter
             var v = new BigDecimal(value.UnscaledValue, value.Scale, MathContext);
             var str = v.ToPlainString().Replace('.', ',');
             _out.WriteLine(str);
+        }
+
+        public void Clear()
+        {
+            _out.Clear();
         }
 
         public void SetCurrentPrecision(int precision)
@@ -67,7 +74,7 @@ namespace DwLang.Language.Interpreter
 
         public void Dispose()
         {
-            
+
         }
     }
 }

@@ -41,13 +41,24 @@ namespace DwLang.Language
 
                 case "x":
                     return TokenType.X;
+
+                case "cls":
+                    return TokenType.Cls;
             }
 
             return TokenType.Identifier;
         }
 
-        public static bool IsKeyword(this string value)
-            => value.ToKeyword() != TokenType.Identifier;
+        public static CommandType ToCommandType(this Token token)
+        {
+            switch(token.Type)
+            {
+                case TokenType.Cls:
+                    return CommandType.Cls;
+            }
+
+            throw new DwLangParserException(token, $"{token.Type} is not a valid command.");
+        }
 
         public static bool IsBinaryOperator(this TokenType type)
         {
