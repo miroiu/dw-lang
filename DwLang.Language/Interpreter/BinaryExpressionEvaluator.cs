@@ -34,7 +34,7 @@ namespace DwLang.Language.Interpreter
                     case BinaryOperatorType.Plus:
                         return new Constant(BigMath.StripTrailingZeros(BigMath.Add(left, right, ctx.GetMathContext())));
                     case BinaryOperatorType.Pow:
-                        return new Constant(BigMath.Pow(left, right.ToInt32(), ctx.GetMathContext()));
+                        return new Constant(BigMath.StripTrailingZeros(BigMath.Pow(left, right.ToInt32(), ctx.GetMathContext())));
                     case BinaryOperatorType.Prm:
                         return new BinaryExpression(
                             new UnaryExpression(UnaryOperatorType.Factorial, casted.Left),
