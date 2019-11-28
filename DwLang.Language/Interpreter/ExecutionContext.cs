@@ -1,4 +1,5 @@
 ﻿using Deveel.Math;
+using DwLang.Language.Expressions;
 using System;
 using System.Collections.Generic;
 
@@ -55,8 +56,12 @@ namespace DwLang.Language.Interpreter
             return MathContext;
         }
 
-        public BigDecimal Get(string name)
+        public BigDecimal Get(string name, Expression expr)
         {
+            if (!_values.ContainsKey(name))
+            {
+                throw new DwLangExecutionException($"Variable {name} is not defined.", expr);
+            }
             return _values[name];
         }
 

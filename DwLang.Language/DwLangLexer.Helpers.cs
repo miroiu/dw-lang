@@ -61,23 +61,5 @@ namespace DwLang.Language
         {
             while (char.IsWhiteSpace(stream.Current) && stream.MoveNext()) ;
         }
-
-        // Starts with / or *
-        private void ReadComment(SourceText stream)
-        {
-            if (stream.Current == '/' && stream.MoveNext() && stream.Current == '*')
-            {
-                while (stream.MoveNext() && stream.Current != '*') ;
-
-                if (stream.Current == '*' && stream.MoveNext() && stream.Current == '\\')
-                {
-                    stream.MoveNext();
-                    return;
-                }
-            }
-
-            return;
-            throw new DwLangLexerException(_text.Line, _text.Column, "Wrongly formatted comment");
-        }
     }
 }

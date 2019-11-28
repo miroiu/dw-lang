@@ -34,7 +34,7 @@ namespace DwLang.Tests
             var input = new VariableDeclaration(new Identifier("aa"), null);
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNull(result);
-            var currentValue = _ctx.Get("aa");
+            var currentValue = _ctx.Get("aa", input);
             Assert.AreEqual(currentValue, null);
         }
 
@@ -47,7 +47,7 @@ namespace DwLang.Tests
             var input = new Assignment(new Identifier("aa"), new Constant(value));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNull(result);
-            var currentValue = _ctx.Get("aa");
+            var currentValue = _ctx.Get("aa", input);
             Assert.AreEqual(value, currentValue);
         }
 

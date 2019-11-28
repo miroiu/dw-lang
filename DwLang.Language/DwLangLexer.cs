@@ -77,11 +77,6 @@
                     _text.MoveNext();
                     return Lex();
 
-                case '/':
-                case '*':
-                    ReadComment(_text);
-                    break;
-
                 case '0':
                 case '1':
                 case '2':

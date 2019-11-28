@@ -11,7 +11,7 @@ namespace DwLang.Language.Interpreter
             try
             {
                 var casted = expression as Identifier;
-                var result = ctx.Get(casted.Name);
+                var result = ctx.Get(casted.Name, expression);
                 if (result == null)
                 {
                     throw new DwLangExecutionException($"Variable {casted.Name} is not initialized.", expression);
