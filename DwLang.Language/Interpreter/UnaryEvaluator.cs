@@ -16,7 +16,7 @@ namespace DwLang.Language.Interpreter
                 switch (casted.OperatorType)
                 {
                     case UnaryOperatorType.Factorial:
-                        return new Constant(Factorial(value, ctx.GetMathContext()));
+                        return new Constant(Factorial(value, ctx.GetMathContext(), expression));
 
                     case UnaryOperatorType.Sqr:
                         return new Constant(Sqrt(value.ToBigInteger(), ctx.GetMathContext()));
@@ -37,8 +37,12 @@ namespace DwLang.Language.Interpreter
             }
         }
 
-        public static BigDecimal Factorial(BigDecimal n, MathContext ctx)
+        public static BigDecimal Factorial(BigDecimal n, MathContext ctx, Expression expr)
         {
+            if (n.CompareTo(BigDecimal.Zero) < 0 || n.Scale != 0)
+            {
+                throw new DwLangExecutionException("Factorial can be calculated only for positive integers.", expr);
+            }
             var factorial = BigDecimal.One;
             for (var i = 1; i <= n.ToInt32(); i++)
             {
