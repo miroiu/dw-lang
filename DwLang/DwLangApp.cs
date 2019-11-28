@@ -19,15 +19,16 @@ namespace DwLang
 
         private async void Run()
         {
-            var code = Console.ReadLine();
-
-            var preLexer = new DwLangPreLexer(code);
-            var source = preLexer.Sanitize();
-            var lexer = new DwLangLexer(source);
-            var parser = new DwLangParser(lexer);
-
             try
             {
+                var code = Console.ReadLine();
+
+                var preLexer = new DwLangPreLexer(code);
+                var source = preLexer.Sanitize();
+                var lexer = new DwLangLexer(source);
+                var parser = new DwLangParser(lexer);
+
+
                 var interpreter = new DwLangInterpreter(Console);
                 interpreter.Run(parser);
             }
