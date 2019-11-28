@@ -17,7 +17,7 @@ namespace DwLang
         public DwLangConsole Console { get; }
         public ICommand RunCommand { get; }
 
-        private async void Run()
+        private void Run()
         {
             try
             {
