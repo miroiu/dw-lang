@@ -20,6 +20,10 @@ namespace DwLang
                 var source = File.ReadAllText(path);
                 _repl.Evaluate(source);
             }
+            else
+            {
+                console.WriteLine($"File {arguments[0]} not found.");
+            }
         }
     }
 }
