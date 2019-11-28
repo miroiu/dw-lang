@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DwLang.Language.Parser;
@@ -35,6 +36,18 @@ namespace DwLang.Language
             {
                 return source;
             }
+
+            var newLinesPositions = new HashSet<int>();
+            int k = 0;
+
+            while (source.IndexOf(Environment.NewLine, k + 1) > -1)
+            {
+                k = source.IndexOf(Environment.NewLine, k + 1);
+                newLinesPositions.Add(k);
+            }
+
+            source = source.Replace(Environment.NewLine, string.Empty);
+
             int? openedAt = null;
             int? possiblyClosedAt = null;
             for (var i = 0; i < source.Length; i++)
@@ -80,6 +93,17 @@ namespace DwLang.Language
                     throw new DwLangParserException(token, "Invalid comment");
                 }
             }
+
+            if (newLinesPositions.Any())
+            {
+                var sb = new StringBuilder(source);
+                foreach (var pos in newLinesPositions)
+                {
+                    sb.Insert(pos, Environment.NewLine);
+                }
+                source = sb.ToString();
+            }
+
             return source;
         }
 

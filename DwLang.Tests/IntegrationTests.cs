@@ -56,6 +56,8 @@ namespace DwLang.Tests
         [TestCase("print med 8 3 5 9;", new string[] { "6,5" })]
         [TestCase("print (med 8 3 5 9) + 0,5;", new string[] { "7" })]
         [TestCase("/* some comment *\\ print 5; *\\ print 3;", new string[] { "3" })]
+        [TestCase("/\r\n*\r\n some comment \r\n*\r\n\\ print 5; *\\ print 3;", new string[] { "3" })]
+        [TestCase("print 1;/\r\n*\r\n some comment \r\n*\r\n\\ print 5; *\\ print 3;", new string[] { "1", "3" })]
         [TestCase("/* var val = 2; print val;/* print val; *\\ print 4;", new string[] { "4" })]
         [TestCase("/* var val = 2; print val;/* print \r\n val; *\\ print 4;", new string[] { "4" })]
         [TestCase("set precision 4; print 5 : 2;", new string[] { "2,5" })]
