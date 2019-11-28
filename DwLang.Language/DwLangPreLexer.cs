@@ -38,7 +38,7 @@ namespace DwLang.Language
             }
 
             var newLinesPositions = new HashSet<int>();
-            int k = 0;
+            int k = -1;
 
             while (source.IndexOf(Environment.NewLine, k + 1) > -1)
             {

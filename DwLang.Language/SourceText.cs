@@ -24,7 +24,6 @@ namespace DwLang.Language
         {
             if (Position + 1 < Text.Length)
             {
-                Position++;
                 Column++;
 
                 if (Current == '\n')
@@ -32,7 +31,7 @@ namespace DwLang.Language
                     Line++;
                     Column = 0;
                 }
-
+                Position++;
                 return true;
             }
 

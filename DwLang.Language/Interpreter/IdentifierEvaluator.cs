@@ -11,7 +11,12 @@ namespace DwLang.Language.Interpreter
             try
             {
                 var casted = expression as Identifier;
-                return new Constant(ctx.Get(casted.Name));
+                var result = ctx.Get(casted.Name);
+                if (result == null)
+                {
+                    throw new DwLangExecutionException($"Variable {casted.Name} is not initialized.", expression);
+                }
+                return new Constant(result);
             }
             catch (Exception e)
             {
