@@ -5,32 +5,24 @@ namespace DwLang.Language
 {
     public class SourceText : IEnumerator<char>
     {
-        private readonly string _source;
-
-        public string Text
-        {
-            get
-            {
-                return _source;
-            }
-        }
+        public string Text { get; }
 
         public int Position { get; set; }
-        public int Length => _source.Length;
+        public int Length => Text.Length;
 
         public SourceText(string source)
-            => _source = $"{source}\0";
+            => Text = $"{source}\0";
 
-        public char Current => _source[Position];
+        public char Current => Text[Position];
 
         object IEnumerator.Current => Current;
 
-        public int Column { get; private set; }
-        public int Line { get; private set; }
+        public int Column { get; set; }
+        public int Line { get; set; }
 
         public bool MoveNext()
         {
-            if (Position + 1 < _source.Length)
+            if (Position + 1 < Text.Length)
             {
                 Position++;
                 Column++;
@@ -51,9 +43,9 @@ namespace DwLang.Language
         {
             var location = Position + count;
 
-            if (location < _source.Length && location >= 0)
+            if (location < Text.Length && location >= 0)
             {
-                return _source[location];
+                return Text[location];
             }
 
             return '\0';

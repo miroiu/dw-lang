@@ -3,7 +3,6 @@
     public partial class DwLangLexer
     {
         private readonly SourceText _text;
-        private int _returnTo;
 
         public DwLangLexer(SourceText text)
         {
@@ -171,7 +170,10 @@
 
         public Token Peek(int offset = 1)
         {
-            _returnTo = _text.Position;
+            var returnTo = _text.Position;
+            var col = _text.Column;
+            var row = _text.Line;
+
             Token token = default;
 
             for (int i = 0; i < offset; i++)
@@ -179,7 +181,9 @@
                 token = Lex();
             }
 
-            _text.Position = _returnTo;
+            _text.Position = returnTo;
+            _text.Column = col;
+            _text.Line = row;
             return token;
         }
     }
