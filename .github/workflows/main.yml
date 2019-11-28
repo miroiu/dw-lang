@@ -1,0 +1,33 @@
+name: CI
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    name: 'Release'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Use DotNet SDK 3
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.0.100'
+    - run: dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true -o pub .     
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          Changes in this Release
+          - First Change
+          - Second Change
+        draft: false
+        prerelease: false
