@@ -22,7 +22,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBox Text="{Binding Console.Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 MinHeight="150"
+                 MinHeight="25"
                  MaxHeight="200"
                  FontSize="14"
                  Margin="0 0 0 5"
