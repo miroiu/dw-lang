@@ -22,11 +22,7 @@ namespace DwLang.Language
 
         private static string StripComments(string source)
         {
-            if (string.IsNullOrEmpty(source))
-            {
-                return source;
-            }
-            if (source.Length <= 3)
+            if (string.IsNullOrEmpty(source) || source.Length <= 3)
             {
                 return source;
             }
@@ -55,6 +51,7 @@ namespace DwLang.Language
                         possiblyClosedAt = null;
                         openedAt = null;
                     }
+					
                     if (openedAt == null && possiblyClosedAt == null)
                     {
                         openedAt = i;
