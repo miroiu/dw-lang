@@ -59,6 +59,11 @@ namespace DwLang.Tests
         [TestCase("/* var val = 2; print val;/* print val; *\\ print 4;", new string[] { "4" })]
         [TestCase("/* var val = 2; print val;/* print \r\n val; *\\ print 4;", new string[] { "4" })]
         [TestCase("set precision 4; print 5 : 2;", new string[] { "2,5" })]
+        [TestCase("print 5,5 - 3,5;", new string[] { "2" })]
+        [TestCase("print 0,5 x 2;", new string[] { "1" })]
+        [TestCase("print 30 - 10;", new string[] { "20" })]
+        [TestCase("print 30 x 2;", new string[] { "60" })]
+        [TestCase("print 30 : 3;", new string[] { "10" })]
         public void Everything(string input, string[] expected)
         {
             var result = App.Run(input);

@@ -34,7 +34,7 @@ namespace DwLang.Language.Interpreter
         public void Print(BigDecimal value)
         {
             var v = new BigDecimal(value.UnscaledValue, value.Scale, MathContext);
-            var str = v.ToString().Replace('.', ',');
+            var str = v.ToPlainString().Replace('.', ',');
             _out.WriteLine(str);
         }
 

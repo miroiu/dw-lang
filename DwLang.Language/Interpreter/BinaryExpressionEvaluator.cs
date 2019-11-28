@@ -28,11 +28,11 @@ namespace DwLang.Language.Interpreter
                         }
                         return new Constant(BigMath.StripTrailingZeros(result));
                     case BinaryOperatorType.Minus:
-                        return new Constant(BigMath.Subtract(left, right, ctx.GetMathContext()));
+                        return new Constant(BigMath.StripTrailingZeros(BigMath.Subtract(left, right, ctx.GetMathContext())));
                     case BinaryOperatorType.Multiply:
-                        return new Constant(BigMath.Multiply(left, right, ctx.GetMathContext()));
+                        return new Constant(BigMath.StripTrailingZeros(BigMath.Multiply(left, right, ctx.GetMathContext())));
                     case BinaryOperatorType.Plus:
-                        return new Constant(BigMath.Add(left, right, ctx.GetMathContext()));
+                        return new Constant(BigMath.StripTrailingZeros(BigMath.Add(left, right, ctx.GetMathContext())));
                     case BinaryOperatorType.Pow:
                         return new Constant(BigMath.Pow(left, right.ToInt32(), ctx.GetMathContext()));
                     case BinaryOperatorType.Prm:
