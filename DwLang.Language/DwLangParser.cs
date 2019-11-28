@@ -36,7 +36,7 @@ namespace DwLang.Language
         public Expression Next()
         {
             Current = _lexer.Lex();
-            var result = Parslets[(Current.Type, true)].Accept(this);
+            var result = GetParslet(Current, true).Accept(this);
 
             Check(TokenType.Semicolon);
             HasNext = Peek().Type != TokenType.EndOfCode;
@@ -49,12 +49,7 @@ namespace DwLang.Language
 
         public Expression ParsePrimaryExpression()
         {
-            if (Parslets.TryGetValue((Current.Type, false), out var parslet))
-            {
-                return parslet.Accept(this);
-            }
-
-            throw new DwLangParserException(Current, $"Unexpected token {Current.Type}.");
+            return GetParslet(Current, false).Accept(this);
         }
 
         public Token Take(TokenType tokenType)
@@ -89,5 +84,14 @@ namespace DwLang.Language
 
         public bool IsEndOfStatement()
             => Current.Type == TokenType.Semicolon;
+
+        private IParslet GetParslet(Token token, bool canBeginWith)
+        {
+            if (Parslets.TryGetValue((token.Type, canBeginWith), out var value))
+            {
+                return value;
+            }
+            throw new DwLangParserException(token, $"Invalid token found: {token.Type}");
+        }
     }
 }
