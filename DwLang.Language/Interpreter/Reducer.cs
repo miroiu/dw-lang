@@ -1,16 +1,28 @@
 ﻿using DwLang.Language.Expressions;
+using System;
 
 namespace DwLang.Language.Interpreter
 {
     public static class Reducer
     {
-        public static Expression Reduce(Expression e, ExecutionContext ctx)
+        public static Expression Reduce(Expression expression, ExecutionContext ctx)
         {
-            if (e == null || e is Constant)
+            try
             {
-                return e;
+                if (expression == null || expression is Constant)
+                {
+                    return expression;
+                }
+                return Reduce(DwLangInterpreter.Evaluators[expression.GetType()].Evaluate(expression, ctx), ctx);
             }
-            return Reduce(DwLangInterpreter.Evaluators[e.GetType()].Evaluate(e, ctx), ctx);
+            catch (Exception e)
+            {
+                if (e is DwLangExecutionException)
+                {
+                    throw e;
+                }
+                throw new DwLangExecutionException(e, expression);
+            }
         }
     }
 }

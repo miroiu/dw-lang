@@ -8,24 +8,13 @@ namespace DwLang.Language.Interpreter
     {
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
-            try
+            var casted = expression as Identifier;
+            var result = ctx.Get(casted.Name, expression);
+            if (result == null)
             {
-                var casted = expression as Identifier;
-                var result = ctx.Get(casted.Name, expression);
-                if (result == null)
-                {
-                    throw new DwLangExecutionException($"Variable {casted.Name} is not initialized.", expression);
-                }
-                return new Constant(result);
+                throw new DwLangExecutionException($"Variable {casted.Name} is not initialized.", expression);
             }
-            catch (Exception e)
-            {
-                if (e is DwLangExecutionException)
-                {
-                    throw e;
-                }
-                throw new DwLangExecutionException(e, expression);
-            }
+            return new Constant(result);
         }
     }
 }

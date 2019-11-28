@@ -8,28 +8,16 @@ namespace DwLang.Language.Interpreter
     {
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
-            try
+            var casted = expression as Command;
+
+            switch (casted.Type)
             {
-                var casted = expression as Command;
-
-                switch (casted.Type)
-                {
-                    case CommandType.Cls:
-                        ctx.Clear();
-                        break;
-                }
-
-                return default;
+                case CommandType.Cls:
+                    ctx.Clear();
+                    break;
             }
-            catch (Exception e)
-            {
-                if (e is DwLangExecutionException)
-                {
-                    throw e;
-                }
 
-                throw new DwLangExecutionException(e, expression);
-            }
+            return default;
         }
     }
 }

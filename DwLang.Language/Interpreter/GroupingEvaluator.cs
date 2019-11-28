@@ -8,20 +8,9 @@ namespace DwLang.Language.Interpreter
     {
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
-            try
-            {
-                var casted = expression as Grouping;
-                var result = Reducer.Reduce(casted.Inner, ctx);
-                return result;
-            }
-            catch (Exception e)
-            {
-                if (e is DwLangExecutionException)
-                {
-                    throw e;
-                }
-                throw new DwLangExecutionException(e, expression);
-            }
+            var casted = expression as Grouping;
+            var result = Reducer.Reduce(casted.Inner, ctx);
+            return result;
         }
     }
 }

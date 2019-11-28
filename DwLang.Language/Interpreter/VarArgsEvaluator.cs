@@ -1,8 +1,6 @@
 ﻿using DwLang.Language.Expressions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DwLang.Language.Interpreter
 {
@@ -11,50 +9,39 @@ namespace DwLang.Language.Interpreter
     {
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
-            try
+            var casted = expression as VarArgsExpression;
+            switch (casted.OperatorType)
             {
-                var casted = expression as VarArgsExpression;
-                switch (casted.OperatorType)
-                {
-                    case VarArgsOperatorType.Avg:
-                        var sumExpr = casted.Arguments.First();
-                        for (var i = 1; i < casted.Arguments.Count; i++)
-                        {
-                            sumExpr = new BinaryExpression(sumExpr, BinaryOperatorType.Plus, casted.Arguments.ElementAt(i));
-                        }
+                case VarArgsOperatorType.Avg:
+                    var sumExpr = casted.Arguments.First();
+                    for (var i = 1; i < casted.Arguments.Count; i++)
+                    {
+                        sumExpr = new BinaryExpression(sumExpr, BinaryOperatorType.Plus, casted.Arguments.ElementAt(i));
+                    }
 
-                        var binary = new BinaryExpression(sumExpr, BinaryOperatorType.Divide, new Constant(new Deveel.Math.BigDecimal(casted.Arguments.Count)));
-                        return Reducer.Reduce(binary, ctx);
+                    var binary = new BinaryExpression(sumExpr, BinaryOperatorType.Divide, new Constant(new Deveel.Math.BigDecimal(casted.Arguments.Count)));
+                    return Reducer.Reduce(binary, ctx);
 
-                    case VarArgsOperatorType.Med:
-                        var n = casted.Arguments.Count;
+                case VarArgsOperatorType.Med:
+                    var n = casted.Arguments.Count;
 
-                        var args = casted.Arguments.OrderBy(e => e, new ExpressionComparer(ctx)).ToList();
+                    var args = casted.Arguments.OrderBy(e => e, new ExpressionComparer(ctx)).ToList();
 
-                        if (args.Count % 2 == 0)
-                        {
-                            // even
-                            var firstValue = args.ElementAt(n / 2 - 1);
-                            var secondValue = args.ElementAt(n / 2);
+                    if (args.Count % 2 == 0)
+                    {
+                        // even
+                        var firstValue = args.ElementAt(n / 2 - 1);
+                        var secondValue = args.ElementAt(n / 2);
 
-                            var varArgs = new VarArgsExpression(VarArgsOperatorType.Avg, new Expression[] { firstValue, secondValue });
-                            return Reducer.Reduce(varArgs, ctx);
-                        }
-                        else
-                        {
-                            return args.ElementAt(((n + 1) / 2) - 1);
-                        }
-                }
-                return null;
+                        var varArgs = new VarArgsExpression(VarArgsOperatorType.Avg, new Expression[] { firstValue, secondValue });
+                        return Reducer.Reduce(varArgs, ctx);
+                    }
+                    else
+                    {
+                        return args.ElementAt(((n + 1) / 2) - 1);
+                    }
             }
-            catch (Exception e)
-            {
-                if (e is DwLangExecutionException)
-                {
-                    throw e;
-                }
-                throw new DwLangExecutionException(e, expression);
-            }
+            return null;
         }
     }
 

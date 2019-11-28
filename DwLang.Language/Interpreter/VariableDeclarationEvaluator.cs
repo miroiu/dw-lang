@@ -1,6 +1,5 @@
 ﻿using Deveel.Math;
 using DwLang.Language.Expressions;
-using System;
 
 namespace DwLang.Language.Interpreter
 {
@@ -9,24 +8,14 @@ namespace DwLang.Language.Interpreter
     {
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
-            try
+            var casted = expression as VariableDeclaration;
+            BigDecimal result = null;
+            if (casted.Initializer != null)
             {
-                var casted = expression as VariableDeclaration;
-                BigDecimal result = null;
-                if (casted.Initializer != null)
-                {
-                    result = ((Constant)Reducer.Reduce(casted.Initializer, ctx)).Value;
-                }
-                ctx.Declare(casted.Identifier.Name, result);
-                return null;
-            }  catch (Exception e)
-            {
-                if (e is DwLangExecutionException)
-                {
-                    throw e;
-                }
-                throw new DwLangExecutionException(e, expression);
+                result = ((Constant)Reducer.Reduce(casted.Initializer, ctx)).Value;
             }
+            ctx.Declare(casted.Identifier.Name, result);
+            return default;
         }
     }
 }

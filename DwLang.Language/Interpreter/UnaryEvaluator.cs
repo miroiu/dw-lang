@@ -9,36 +9,25 @@ namespace DwLang.Language.Interpreter
     {
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
-            try
+            var casted = expression as UnaryExpression;
+            var value = (Reducer.Reduce(casted.Operand, ctx) as Constant).Value;
+            switch (casted.OperatorType)
             {
-                var casted = expression as UnaryExpression;
-                var value = (Reducer.Reduce(casted.Operand, ctx) as Constant).Value;
-                switch (casted.OperatorType)
-                {
-                    case UnaryOperatorType.Factorial:
-                        return new Constant(Factorial(value, ctx.MathContext, expression));
+                case UnaryOperatorType.Factorial:
+                    return new Constant(Factorial(value, ctx.MathContext, expression));
 
-                    case UnaryOperatorType.Sqr:
-                        return new Constant(Sqrt(value.ToBigInteger(), ctx.MathContext));
+                case UnaryOperatorType.Sqr:
+                    return new Constant(Sqrt(value.ToBigInteger(), ctx.MathContext));
 
-                    case UnaryOperatorType.Minus:
-                        return new Constant(-value);
+                case UnaryOperatorType.Minus:
+                    return new Constant(-value);
 
-                    case UnaryOperatorType.Print:
-                        ctx.Print(value);
-                        return null;
-                }
-
-                return null;
+                case UnaryOperatorType.Print:
+                    ctx.Print(value);
+                    return null;
             }
-            catch (Exception e)
-            {
-                if (e is DwLangExecutionException)
-                {
-                    throw e;
-                }
-                throw new DwLangExecutionException(e, expression);
-            }
+
+            return default;
         }
 
         public static BigDecimal Factorial(BigDecimal n, MathContext ctx, Expression expr)
