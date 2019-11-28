@@ -8,9 +8,9 @@ namespace DwLang
     public class DwLangRepl
     {
         public DwLangInterpreter Interpreter;
-        public DwLangReplConsole Console;
+        public DwLangConsole Console;
 
-        public DwLangRepl(DwLangReplConsole console)
+        public DwLangRepl(DwLangConsole console)
         {
             Console = console;
             Interpreter = new DwLangInterpreter(console);

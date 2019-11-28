@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace DwLang
+namespace DwLang.Editor
 {
     public class DwLangObservable : INotifyPropertyChanged
     {

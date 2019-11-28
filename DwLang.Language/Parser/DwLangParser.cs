@@ -91,7 +91,7 @@ namespace DwLang.Language.Parser
             {
                 return value;
             }
-            throw new DwLangParserException(token, $"Invalid token found: {token.Type}");
+            throw new DwLangParserException(token, $"Invalid token found: {token.Text}");
         }
     }
 }

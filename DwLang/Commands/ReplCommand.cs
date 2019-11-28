@@ -1,12 +1,11 @@
 ﻿namespace DwLang
 {
-    [ConsoleCommand("-r")]
-    [ConsoleCommand("-repl")]
+    [ConsoleCommand("-r", "-repl", Description = "read-eval-print-loop")]
     public class ReplCommand : IConsoleCommand
     {
         private DwLangRepl _repl;
 
-        public void Execute(DwLangReplConsole console)
+        public void Execute(DwLangConsole console)
         {
             _repl = new DwLangRepl(console);
 

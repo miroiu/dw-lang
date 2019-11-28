@@ -1,9 +1,9 @@
 ﻿using DwLang.Language;
 using System.Text;
 
-namespace DwLang
+namespace DwLang.Editor
 {
-    public class DwLangWpfConsole : DwLangObservable, IOutputStream
+    public class DwLangConsole : DwLangObservable, IOutputStream
     {
         private readonly StringBuilder _string = new StringBuilder(128);
 

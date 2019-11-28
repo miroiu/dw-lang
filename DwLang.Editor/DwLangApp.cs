@@ -4,17 +4,17 @@ using DwLang.Language.Lexer;
 using DwLang.Language.Parser;
 using System.Windows.Input;
 
-namespace DwLang
+namespace DwLang.Editor
 {
     public class DwLangApp : DwLangObservable
     {
         public DwLangApp()
         {
             RunCommand = new DwLangCommand(Run);
-            Console = new DwLangWpfConsole();
+            Console = new DwLangConsole();
         }
 
-        public DwLangWpfConsole Console { get; }
+        public DwLangConsole Console { get; }
         public ICommand RunCommand { get; }
 
         private void Run()

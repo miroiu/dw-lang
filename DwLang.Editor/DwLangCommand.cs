@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace DwLang
+namespace DwLang.Editor
 {
     public class DwLangCommand : ICommand
     {

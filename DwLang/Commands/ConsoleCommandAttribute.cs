@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DwLang
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public sealed class ConsoleCommandAttribute : Attribute
     {
-        public ConsoleCommandAttribute(string name)
+        public ConsoleCommandAttribute(params string[] name)
         {
-            Name = name;
+            Aliases = name;
         }
 
-        public string Name { get; }
+        public IReadOnlyCollection<string> Aliases { get; }
+        public string Description { get; set; }
     }
 }

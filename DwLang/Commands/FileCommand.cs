@@ -2,14 +2,13 @@
 
 namespace DwLang
 {
-    [ConsoleCommand("-f")]
-    [ConsoleCommand("-file")]
+    [ConsoleCommand("-f", "-file", Description = "execute .dwl file")]
     public class FileCommand : IConsoleCommand
     {
         private DwLangRepl _repl;
         private const string _extension = ".dwl";
 
-        public void Execute(DwLangReplConsole console)
+        public void Execute(DwLangConsole console)
         {
             _repl = new DwLangRepl(console);
 

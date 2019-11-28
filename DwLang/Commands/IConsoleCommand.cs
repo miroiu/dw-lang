@@ -2,6 +2,6 @@
 {
     public interface IConsoleCommand
     {
-        public void Execute(DwLangReplConsole console);
+        public void Execute(DwLangConsole console);
     }
 }

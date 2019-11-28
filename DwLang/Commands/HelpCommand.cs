@@ -1,15 +1,16 @@
 ﻿namespace DwLang
 {
-    [ConsoleCommand("-h")]
-    [ConsoleCommand("-help")]
+    [ConsoleCommand("-h", "-?", "-help", Description = "Shows a list of commands")]
     public class HelpCommand : IConsoleCommand
     {
-        public void Execute(DwLangReplConsole console)
+        public void Execute(DwLangConsole console)
         {
-            console.WriteLine($"-r\t> read-eval-print-loop");
-            console.WriteLine($"-repl\t> read-eval-print-loop");
-            console.WriteLine($"-f\t> execute file");
-            console.WriteLine($"-file\t> execute file");
+            var commands = DwLangConsole.Commands;
+
+            foreach (var kvp in commands)
+            {
+                console.WriteLine($"{kvp.Key.Name}\t{kvp.Key.Description}");
+            }
         }
     }
 }

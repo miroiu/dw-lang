@@ -1,7 +1,8 @@
 {
   "profiles": {
     "DwLang": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "-r"
     }
   }
 }
