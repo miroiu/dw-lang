@@ -1,5 +1,6 @@
 ﻿using DwLang.Language;
 using DwLang.Language.Interpreter;
+using DwLang.Language.Lexer;
 using DwLang.Language.Parser;
 using NUnit.Framework;
 using System;

@@ -1,64 +1,45 @@
-﻿using DwLang.Language;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 
 namespace DwLang
 {
     public partial class App : Application
     {
-        public DwLangReplConsole Console = new DwLangReplConsole();
+        private static readonly Dictionary<string, IConsoleCommand> _commands = typeof(IConsoleCommand).Assembly.GetTypes()
+            .Where(t => typeof(IConsoleCommand).IsAssignableFrom(t) && t.CustomAttributes.Any())
+            .SelectMany(t =>
+            {
+                return t.GetCustomAttributes(false).Select(y => new
+                {
+                    Attribute = (ConsoleCommandAttribute)y,
+                    Type = t
+                }).ToList();
+            }).ToDictionary(x => x.Attribute.Name, x => (IConsoleCommand)Activator.CreateInstance(x.Type));
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
+            using var console = new DwLangReplConsole(e.Args.Skip(1).ToArray());
+
             if (e.Args.Length == 0)
             {
                 MainWindow = new MainWindow();
                 MainWindow.Show();
+                return;
             }
-            else if (e.Args.Length > 1)
+            else if (_commands.TryGetValue(e.Args[0], out var command))
             {
-                Console.WriteLine("Only one file at a time is allowed.");
+                console.Show();
+                command.Execute(console);
             }
             else
             {
-                var path = Path.Combine(Directory.GetCurrentDirectory(), e.Args[0]);
-
-                if (e.Args[0] == "repl")
-                {
-                    string code;
-                    do
-                    {
-                        Console.WriteLine("> ");
-                        code = Console.ReadLine();
-
-                        RunCode(code, true);
-                    }
-                    while (code != "exit");
-                }
-                else if (File.Exists(path))
-                {
-                    var source = File.ReadAllText(path);
-
-                    RunCode(source, false);
-                    Shutdown();
-                }
-                else
-                {
-                    System.Console.WriteLine($"File {e.Args[0]} does not exist.");
-                    Shutdown();
-                }
+                console.Show();
+                _commands["-help"].Execute(console);
             }
-        }
 
-        private void RunCode(string source, bool repl)
-        {
-            var preLexer = new DwLangPreLexer(source);
-            var stream = preLexer.Sanitize();
-            var lexer = new DwLangLexer(stream);
-            var parser = new DwLangParser(lexer);
-
-            var interpreter = new DwLangInterpreter(Console);
-            interpreter.Run(parser);
+            Shutdown();
         }
     }
 }

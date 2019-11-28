@@ -1,9 +1,10 @@
 ﻿using DwLang.Language.Expressions;
+using DwLang.Language.Lexer;
 using DwLang.Language.Parser;
 
 namespace DwLang.Language
 {
-    public static class DwLangExtensions
+    public static class DwLangHelpers
     {
         public static TokenType ToKeyword(this string value)
         {
@@ -51,7 +52,7 @@ namespace DwLang.Language
 
         public static CommandType ToCommandType(this Token token)
         {
-            switch(token.Type)
+            switch (token.Type)
             {
                 case TokenType.Cls:
                     return CommandType.Cls;
@@ -83,6 +84,8 @@ namespace DwLang.Language
             {
                 case TokenType.Sqr:
                     return true;
+                case TokenType.Minus:
+                    return true;
             }
 
             return false;
@@ -100,6 +103,9 @@ namespace DwLang.Language
 
                 case TokenType.Exclamation:
                     return UnaryOperatorType.Factorial;
+
+                case TokenType.Minus:
+                    return UnaryOperatorType.Minus;
             }
 
             throw new DwLangParserException(token, $"{token.Type} is not an unary operator.");

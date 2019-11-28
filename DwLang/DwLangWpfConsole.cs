@@ -3,7 +3,7 @@ using System.Text;
 
 namespace DwLang
 {
-    public class DwLangConsole : DwLangObservable, IOutputStream
+    public class DwLangWpfConsole : DwLangObservable, IOutputStream
     {
         private readonly StringBuilder _string = new StringBuilder(128);
 

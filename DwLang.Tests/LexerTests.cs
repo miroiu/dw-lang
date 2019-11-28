@@ -1,6 +1,8 @@
 ﻿using System;
 using DwLang.Language;
 using DwLang.Language.Interpreter;
+using DwLang.Language.Lexer;
+using DwLang.Language.Parser;
 using DwLang.Tests.Mocks;
 using NUnit.Framework;
 

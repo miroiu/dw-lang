@@ -1,10 +1,8 @@
 ﻿using System;
 using Deveel.Math;
-using DwLang.Language;
 using DwLang.Language.Expressions;
 using DwLang.Language.Interpreter;
 using DwLang.Tests.Mocks;
-using Moq;
 using NUnit.Framework;
 
 namespace DwLang.Tests

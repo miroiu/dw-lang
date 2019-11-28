@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace DwLang.Language
+namespace DwLang.Language.Lexer
 {
     public class SourceText : IEnumerator<char>
     {

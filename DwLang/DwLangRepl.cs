@@ -2,34 +2,30 @@
 using DwLang.Language.Interpreter;
 using DwLang.Language.Lexer;
 using DwLang.Language.Parser;
-using System.Windows.Input;
 
 namespace DwLang
 {
-    public class DwLangApp : DwLangObservable
+    public class DwLangRepl
     {
-        public DwLangApp()
+        public DwLangInterpreter Interpreter;
+        public DwLangReplConsole Console;
+
+        public DwLangRepl(DwLangReplConsole console)
         {
-            RunCommand = new DwLangCommand(Run);
-            Console = new DwLangWpfConsole();
+            Console = console;
+            Interpreter = new DwLangInterpreter(console);
         }
 
-        public DwLangWpfConsole Console { get; }
-        public ICommand RunCommand { get; }
-
-        private void Run()
+        public void Evaluate(string code)
         {
             try
             {
-                var code = Console.ReadLine();
-
                 var preLexer = new DwLangPreLexer(code);
-                var source = preLexer.Sanitize();
-                var lexer = new DwLangLexer(source);
+                var stream = preLexer.Sanitize();
+                var lexer = new DwLangLexer(stream);
                 var parser = new DwLangParser(lexer);
 
-                var interpreter = new DwLangInterpreter(Console);
-                interpreter.Run(parser);
+                Interpreter.Run(parser);
             }
             catch (DwLangLexerException lexEx)
             {

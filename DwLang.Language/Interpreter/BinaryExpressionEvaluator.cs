@@ -19,7 +19,7 @@ namespace DwLang.Language.Interpreter
                 {
                     case BinaryOperatorType.Divide:
                         BigDecimal result;
-                        var mathCtx = ctx.GetMathContext();
+                        var mathCtx = ctx.MathContext;
                         if (mathCtx.Precision != 0)
                         {
                             result = BigMath.Divide(left, right, mathCtx.Precision, mathCtx.RoundingMode);
@@ -31,16 +31,16 @@ namespace DwLang.Language.Interpreter
                         return new Constant(BigMath.StripTrailingZeros(result));
 
                     case BinaryOperatorType.Minus:
-                        return new Constant(BigMath.StripTrailingZeros(BigMath.Subtract(left, right, ctx.GetMathContext())));
+                        return new Constant(BigMath.StripTrailingZeros(BigMath.Subtract(left, right, ctx.MathContext)));
 
                     case BinaryOperatorType.Multiply:
-                        return new Constant(BigMath.StripTrailingZeros(BigMath.Multiply(left, right, ctx.GetMathContext())));
+                        return new Constant(BigMath.StripTrailingZeros(BigMath.Multiply(left, right, ctx.MathContext)));
 
                     case BinaryOperatorType.Plus:
-                        return new Constant(BigMath.StripTrailingZeros(BigMath.Add(left, right, ctx.GetMathContext())));
+                        return new Constant(BigMath.StripTrailingZeros(BigMath.Add(left, right, ctx.MathContext)));
 
                     case BinaryOperatorType.Pow:
-                        return new Constant(BigMath.StripTrailingZeros(BigMath.Pow(left, right.ToInt32(), ctx.GetMathContext())));
+                        return new Constant(BigMath.StripTrailingZeros(BigMath.Pow(left, right.ToInt32(), ctx.MathContext)));
 
                     case BinaryOperatorType.Prm:
                         return new BinaryExpression(

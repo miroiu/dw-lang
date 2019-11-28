@@ -4,6 +4,7 @@
     {
         Factorial,
         Sqr,
-        Print
+        Print,
+        Minus
     }
 }

@@ -16,15 +16,19 @@ namespace DwLang.Language.Interpreter
                 switch (casted.OperatorType)
                 {
                     case UnaryOperatorType.Factorial:
-                        return new Constant(Factorial(value, ctx.GetMathContext(), expression));
+                        return new Constant(Factorial(value, ctx.MathContext, expression));
 
                     case UnaryOperatorType.Sqr:
-                        return new Constant(Sqrt(value.ToBigInteger(), ctx.GetMathContext()));
+                        return new Constant(Sqrt(value.ToBigInteger(), ctx.MathContext));
+
+                    case UnaryOperatorType.Minus:
+                        return new Constant(-value);
 
                     case UnaryOperatorType.Print:
                         ctx.Print(value);
                         return null;
                 }
+
                 return null;
             }
             catch (Exception e)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using DwLang.Language.Parser;
 
-namespace DwLang.Language
+namespace DwLang.Language.Lexer
 {
     public class DwLangPreLexer
     {

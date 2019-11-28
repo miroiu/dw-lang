@@ -3,13 +3,13 @@ using DwLang.Language.Interpreter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace DwLang.Language
+namespace DwLang.Language.Interpreter
 {
     public class DwLangInterpreter
     {
         private readonly IOutputStream _output;
+        public ExecutionContext Context { get; }
 
         public static readonly IDictionary<Type, IExpressionEvaluator> Evaluators = typeof(DwLangInterpreter).Assembly.GetTypes()
                 .Where(x => typeof(IExpressionEvaluator).IsAssignableFrom(x) && x.CustomAttributes.Any())
@@ -26,19 +26,17 @@ namespace DwLang.Language
         public DwLangInterpreter(IOutputStream output)
         {
             _output = output;
+            Context = new ExecutionContext(_output);
         }
 
         public void Run(IExpressionProvider provider)
         {
-            using (var ctx = new ExecutionContext(_output))
+            while (provider.HasNext)
             {
-                while (provider.HasNext)
+                var expr = provider.Next();
+                if (!(expr is EmptyExpression))
                 {
-                    var expr = provider.Next();
-                    if (!(expr is EmptyExpression))
-                    {
-                        Reducer.Reduce(expr, ctx);
-                    }
+                    Reducer.Reduce(expr, Context);
                 }
             }
         }

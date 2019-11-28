@@ -1,4 +1,5 @@
 ﻿using DwLang.Language.Expressions;
+using DwLang.Language.Lexer;
 
 namespace DwLang.Language.Parser
 {
@@ -16,10 +17,10 @@ namespace DwLang.Language.Parser
                 // No need for unary parslet
                 if (parser.Current.Type.IsUnaryOperator())
                 {
-                    var precedence = parser.Current.ToOperatorPrecedence();
+                    //var precedence = parser.Current.ToOperatorPrecedence();
                     var operatorToken = parser.Take();
                     var operatorType = operatorToken.ToUnaryOperatorType();
-                    left = new UnaryExpression(operatorType, ParseBinaryExpression(parser, left, precedence))
+                    left = new UnaryExpression(operatorType, ParseBinaryExpression(parser, left, OperatorPrecedence.Prefix))
                     {
                         Token = operatorToken
                     };

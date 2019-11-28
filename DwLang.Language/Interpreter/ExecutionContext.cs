@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DwLang.Language.Interpreter
 {
-    public class ExecutionContext : IDisposable
+    public class ExecutionContext
     {
         private readonly IDictionary<string, BigDecimal> _values = new Dictionary<string, BigDecimal>();
         public MathContext MathContext { get; private set; } = new MathContext(0, RoundingMode.Unnecessary);
@@ -37,8 +37,10 @@ namespace DwLang.Language.Interpreter
         public void Print(BigDecimal value)
         {
             var v = new BigDecimal(value.UnscaledValue, value.Scale, MathContext);
-            var str = v.ToPlainString().Replace('.', ',');
-            _out.WriteLine(str);
+            _out.WriteLine(v.ToPlainString(/*new NumberFormatInfo
+            {
+                NumberDecimalSeparator = ",",
+            })*/).Replace('.', ','));
         }
 
         public void Clear()
@@ -58,11 +60,6 @@ namespace DwLang.Language.Interpreter
             }
         }
 
-        public MathContext GetMathContext()
-        {
-            return MathContext;
-        }
-
         public BigDecimal Get(string name, Expression expr)
         {
             if (!_values.ContainsKey(name))
@@ -70,11 +67,6 @@ namespace DwLang.Language.Interpreter
                 throw new DwLangExecutionException($"Variable {name} is not defined.", expr);
             }
             return _values[name];
-        }
-
-        public void Dispose()
-        {
-
         }
     }
 }

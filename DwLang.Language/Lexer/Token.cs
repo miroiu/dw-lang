@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace DwLang.Language
+namespace DwLang.Language.Lexer
 {
     [DebuggerDisplay("{Type}: {Text}")]
     public struct Token : IEquatable<Token>

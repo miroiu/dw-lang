@@ -1,14 +1,14 @@
 ﻿using DwLang.Language.Expressions;
-using DwLang.Language.Parser;
+using DwLang.Language.Lexer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DwLang.Language
+namespace DwLang.Language.Parser
 {
     public class DwLangParser : IExpressionProvider
     {
-        public static readonly IDictionary<(TokenType Type, bool CanBeginWith), IParslet> Parslets = typeof(DwLangInterpreter).Assembly.GetTypes()
+        public static readonly IDictionary<(TokenType Type, bool CanBeginWith), IParslet> Parslets = typeof(DwLangParser).Assembly.GetTypes()
                  .Where(x => typeof(IParslet).IsAssignableFrom(x) && x.CustomAttributes.Any())
                  .SelectMany(x =>
                  {

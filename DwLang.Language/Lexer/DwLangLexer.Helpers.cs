@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace DwLang.Language
+namespace DwLang.Language.Lexer
 {
     public partial class DwLangLexer
     {

@@ -1,4 +1,4 @@
-﻿namespace DwLang.Language
+﻿namespace DwLang.Language.Lexer
 {
     public enum TokenType
     {

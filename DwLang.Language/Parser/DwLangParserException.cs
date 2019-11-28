@@ -1,4 +1,6 @@
-﻿namespace DwLang.Language.Parser
+﻿using DwLang.Language.Lexer;
+
+namespace DwLang.Language.Parser
 {
     public class DwLangParserException : DwLangException
     {
