@@ -24,7 +24,7 @@ Variables:
   - variables name consist exclusively of letters and/or underscore
   - variables declaration and initialization can be optionally compound in a single statement (e.g. var a; a = 5; or var a = 5;)
   - reserved words of the language can't be used as variable names
-  - reserved words are: var, sqr, pow, x, prm, avg, med, pwd, set, precision
+  - reserved words are: var, sqr, pow, x, prm, avg, med, pwd, set, precision, print, cls
 
 Binary operators:
   - \+ -> addition (e.g 2 + 3 = 5)
