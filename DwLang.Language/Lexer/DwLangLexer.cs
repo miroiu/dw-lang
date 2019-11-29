@@ -70,9 +70,6 @@
                     return Lex();
 
                 case '\r':
-                    _text.MoveNext();
-                    return Lex();
-
                 case '\n':
                     _text.MoveNext();
                     return Lex();
@@ -151,9 +148,7 @@
                         break;
                     }
 
-                    var (Type, Text) = ReadIdentifierOrKeyword(_text);
-                    token.Type = Type;
-                    token.Text = Text;
+                    (token.Type, token.Text) = ReadIdentifierOrKeyword(_text);
                     break;
 
                 default:

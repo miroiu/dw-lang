@@ -11,7 +11,6 @@
         Semicolon,
         CloseParen,
         OpenParen,
-        Comment,
 
         // Keywords
         Var,
