@@ -54,7 +54,7 @@ Operations grouping:
   - parentheses with unlimited nesting depth
 
 Directives:
-  - set precision <n> (e.g. <n> can be variable or integer: "set precision 4; print 7/6;" should print 1,1667) can be set multiple times in the same program
+  - set precision <n> (e.g. <n> can be variable or integer: "set precision 4; print 7:6;" should print 1,1667) can be set multiple times in the same program
 
 Errors:
   - syntax errors and evaluation errors are printed to the console with their respective line and column numbers
