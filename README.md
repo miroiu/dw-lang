@@ -1,5 +1,7 @@
-![alt text](https://github.com/miroiu/dw-lang/blob/master/DwLang/icon.ico "DwLang logo")
-#  DwLang
+# DwLang Editor
+![alt text](https://i.imgur.com/Hnd2nvG.png "DwLang Editor")
+
+# DwLang
 An educational interpreted programming language that works with big numbers.
 
 ## Usage from the command line
