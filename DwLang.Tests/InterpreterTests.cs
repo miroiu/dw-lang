@@ -29,7 +29,7 @@ namespace DwLang.Tests
         public void VariableDeclaration_Declare_Should_Pass()
         {
             var evaluator = new VariableDeclarationEvaluator();
-            var input = new VariableDeclaration(new Identifier("aa"), null);
+            var input = new VariableDeclarationExpression(new IdentifierExpression("aa"), null);
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNull(result);
             var currentValue = _ctx.Get("aa", input);
@@ -42,7 +42,7 @@ namespace DwLang.Tests
             VariableDeclaration_Declare_Should_Pass();
             var evaluator = new AssignmentEvaluator();
             var value = new BigDecimal(1);
-            var input = new Assignment(new Identifier("aa"), new Constant(value));
+            var input = new AssignmentExpression(new IdentifierExpression("aa"), new ConstantExpression(value));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNull(result);
             var currentValue = _ctx.Get("aa", input);
@@ -54,7 +54,7 @@ namespace DwLang.Tests
         {
             var evaluator = new AssignmentEvaluator();
             var value = new BigDecimal(1);
-            var input = new Assignment(new Identifier("bb"), new Constant(value));
+            var input = new AssignmentExpression(new IdentifierExpression("bb"), new ConstantExpression(value));
             try
             {
                 var result = evaluator.Evaluate(input, _ctx);
@@ -72,13 +72,13 @@ namespace DwLang.Tests
             GenerateVar("zb", BigDecimal.One);
             var evaluator = new BinaryExpressionEvaluator();
             var input = new BinaryExpression(
-                new Identifier("za"),
+                new IdentifierExpression("za"),
                 BinaryOperatorType.Plus,
-                new Identifier("zb"));
+                new IdentifierExpression("zb"));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<Constant>(result);
-            var casted = result as Constant;
+            Assert.IsInstanceOf<ConstantExpression>(result);
+            var casted = result as ConstantExpression;
             Assert.AreEqual(casted.Value, new BigDecimal(2));
         }
 
@@ -89,13 +89,13 @@ namespace DwLang.Tests
             GenerateVar("xb", new BigDecimal(5));
             var evaluator = new BinaryExpressionEvaluator();
             var input = new BinaryExpression(
-                new Identifier("xa"),
+                new IdentifierExpression("xa"),
                 BinaryOperatorType.Divide,
-                new Identifier("xb"));
+                new IdentifierExpression("xb"));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<Constant>(result);
-            var casted = result as Constant;
+            Assert.IsInstanceOf<ConstantExpression>(result);
+            var casted = result as ConstantExpression;
             Assert.AreEqual(casted.Value, new BigDecimal(4));
         }
 
@@ -106,13 +106,13 @@ namespace DwLang.Tests
             GenerateVar("xxb", new BigDecimal(5));
             var evaluator = new BinaryExpressionEvaluator();
             var input = new BinaryExpression(
-                new Identifier("xxa"),
+                new IdentifierExpression("xxa"),
                 BinaryOperatorType.Multiply,
-                new Identifier("xxb"));
+                new IdentifierExpression("xxb"));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<Constant>(result);
-            var casted = result as Constant;
+            Assert.IsInstanceOf<ConstantExpression>(result);
+            var casted = result as ConstantExpression;
             Assert.AreEqual(casted.Value, new BigDecimal(25));
         }
 
@@ -123,13 +123,13 @@ namespace DwLang.Tests
             GenerateVar("xxxb", new BigDecimal(5));
             var evaluator = new BinaryExpressionEvaluator();
             var input = new BinaryExpression(
-                new Identifier("xxxa"),
+                new IdentifierExpression("xxxa"),
                 BinaryOperatorType.Minus,
-                new Identifier("xxxb"));
+                new IdentifierExpression("xxxb"));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<Constant>(result);
-            var casted = result as Constant;
+            Assert.IsInstanceOf<ConstantExpression>(result);
+            var casted = result as ConstantExpression;
             Assert.AreEqual(casted.Value, new BigDecimal(0));
         }
 
@@ -140,13 +140,13 @@ namespace DwLang.Tests
             GenerateVar("xxxxb", new BigDecimal(4));
             var evaluator = new BinaryExpressionEvaluator();
             var input = new BinaryExpression(
-                new Identifier("xxxxa"),
+                new IdentifierExpression("xxxxa"),
                 BinaryOperatorType.Pow,
-                new Identifier("xxxxb"));
+                new IdentifierExpression("xxxxb"));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<Constant>(result);
-            var casted = result as Constant;
+            Assert.IsInstanceOf<ConstantExpression>(result);
+            var casted = result as ConstantExpression;
             Assert.AreEqual(casted.Value, new BigDecimal(16));
         }
 
@@ -155,9 +155,9 @@ namespace DwLang.Tests
         {
             var evaluator = new BinaryExpressionEvaluator();
             var input = new BinaryExpression(
-                new Constant(new BigDecimal(52)),
+                new ConstantExpression(new BigDecimal(52)),
                 BinaryOperatorType.Pwd,
-                new Constant(new BigDecimal(8)));
+                new ConstantExpression(new BigDecimal(8)));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
             var number = EvaluateRec(result, _ctx);
@@ -171,11 +171,11 @@ namespace DwLang.Tests
             var evaluator = new UnaryEvaluator();
             var input = new UnaryExpression(
                 UnaryOperatorType.Factorial,
-                new Identifier("ma"));
+                new IdentifierExpression("ma"));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<Constant>(result);
-            var casted = result as Constant;
+            Assert.IsInstanceOf<ConstantExpression>(result);
+            var casted = result as ConstantExpression;
             Assert.AreEqual(casted.Value, new BigDecimal(6));
         }
 
@@ -186,7 +186,7 @@ namespace DwLang.Tests
             var evaluator = new UnaryEvaluator();
             var input = new UnaryExpression(
                 UnaryOperatorType.Print,
-                new Identifier("max"));
+                new IdentifierExpression("max"));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNull(result);
             Assert.AreEqual(_out.CurrentOutput, "2" + Environment.NewLine);
@@ -198,11 +198,11 @@ namespace DwLang.Tests
             var evaluator = new UnaryEvaluator();
             var input = new UnaryExpression(
                 UnaryOperatorType.Print,
-                new Grouping(
+                new GroupingExpression(
                     new BinaryExpression(
-                        new Constant(new BigDecimal(3)),
+                        new ConstantExpression(new BigDecimal(3)),
                         BinaryOperatorType.Plus,
-                        new UnaryExpression(UnaryOperatorType.Sqr, new Constant(new BigDecimal(9)))
+                        new UnaryExpression(UnaryOperatorType.Sqr, new ConstantExpression(new BigDecimal(9)))
                         )
                     )
                 );
@@ -217,11 +217,11 @@ namespace DwLang.Tests
             var evaluator = new UnaryEvaluator();
             var input = new UnaryExpression(
                 UnaryOperatorType.Sqr,
-                new Identifier("mxa"));
+                new IdentifierExpression("mxa"));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<Constant>(result);
-            var casted = result as Constant;
+            Assert.IsInstanceOf<ConstantExpression>(result);
+            var casted = result as ConstantExpression;
             Assert.AreEqual(casted.Value, new BigDecimal(9));
         }
 
@@ -229,11 +229,11 @@ namespace DwLang.Tests
         public void GroupingExpression_Should_Pass()
         {
             var evaluator = new GroupingEvaluator();
-            var input = new Grouping(new Constant(new BigDecimal(44)));
+            var input = new GroupingExpression(new ConstantExpression(new BigDecimal(44)));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<Constant>(result);
-            var casted = result as Constant;
+            Assert.IsInstanceOf<ConstantExpression>(result);
+            var casted = result as ConstantExpression;
             Assert.AreEqual(casted.Value, new BigDecimal(44));
         }
 
@@ -242,11 +242,11 @@ namespace DwLang.Tests
         {
             GenerateVar("mxaa", new BigDecimal(16));
             var evaluator = new IdentifierEvaluator();
-            var input = new Identifier("mxaa");
+            var input = new IdentifierExpression("mxaa");
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<Constant>(result);
-            var casted = result as Constant;
+            Assert.IsInstanceOf<ConstantExpression>(result);
+            var casted = result as ConstantExpression;
             Assert.AreEqual(casted.Value, new BigDecimal(16));
         }
 
@@ -255,7 +255,7 @@ namespace DwLang.Tests
         {
             GenerateVar("masdxaa", new BigDecimal(16));
             var evaluator = new IdentifierEvaluator();
-            var input = new Identifier("mxaasdav");
+            var input = new IdentifierExpression("mxaasdav");
             try
             {
                 var result = evaluator.Evaluate(input, _ctx);
@@ -271,11 +271,11 @@ namespace DwLang.Tests
         {
             var evaluator = new SetPrecisionEvaluator();
             var c = new BinaryExpression(
-                new Constant(new BigDecimal(7)),
+                new ConstantExpression(new BigDecimal(7)),
                 BinaryOperatorType.Divide,
-                new Constant(new BigDecimal(6))
+                new ConstantExpression(new BigDecimal(6))
                 );
-            var input = new SetPrecision(new Constant(new BigDecimal(4)));
+            var input = new SetPrecisionExpression(new ConstantExpression(new BigDecimal(4)));
             var result = evaluator.Evaluate(input, _ctx);
             Assert.IsNull(result);
             var evaluator2 = new UnaryEvaluator();
@@ -294,9 +294,9 @@ namespace DwLang.Tests
                 VarArgsOperatorType.Avg,
                 new Expression[]
                 {
-                    new Constant(new BigDecimal(2)),
-                    new Constant(new BigDecimal(3)),
-                    new Constant(new BigDecimal(7))
+                    new ConstantExpression(new BigDecimal(2)),
+                    new ConstantExpression(new BigDecimal(3)),
+                    new ConstantExpression(new BigDecimal(7))
                 }
                 );
             var result = evaluator.Evaluate(input, _ctx);
@@ -313,11 +313,11 @@ namespace DwLang.Tests
                 VarArgsOperatorType.Med,
                 new Expression[]
                 {
-                    new Constant(new BigDecimal(2)),
-                    new Constant(new BigDecimal(4)),
-                    new Constant(new BigDecimal(7)),
-                    new Constant(new BigDecimal(8)),
-                    new Constant(new BigDecimal(9))
+                    new ConstantExpression(new BigDecimal(2)),
+                    new ConstantExpression(new BigDecimal(4)),
+                    new ConstantExpression(new BigDecimal(7)),
+                    new ConstantExpression(new BigDecimal(8)),
+                    new ConstantExpression(new BigDecimal(9))
                 }
                 );
             var result = evaluator.Evaluate(input, _ctx);
@@ -334,10 +334,10 @@ namespace DwLang.Tests
                 VarArgsOperatorType.Med,
                 new Expression[]
                 {
-                    new Constant(new BigDecimal(8)),
-                    new Constant(new BigDecimal(3)),
-                    new Constant(new BigDecimal(5)),
-                    new Constant(new BigDecimal(9))
+                    new ConstantExpression(new BigDecimal(8)),
+                    new ConstantExpression(new BigDecimal(3)),
+                    new ConstantExpression(new BigDecimal(5)),
+                    new ConstantExpression(new BigDecimal(9))
                 }
                 );
             var result = evaluator.Evaluate(input, _ctx);
@@ -349,10 +349,10 @@ namespace DwLang.Tests
         private void GenerateVar(string name, BigDecimal value)
         {
             var evaluator = new VariableDeclarationEvaluator();
-            var input = new VariableDeclaration(new Identifier(name), null);
+            var input = new VariableDeclarationExpression(new IdentifierExpression(name), null);
             evaluator.Evaluate(input, _ctx);
             var evaluator2 = new AssignmentEvaluator();
-            var input2 = new Assignment(new Identifier(name), new Constant(value));
+            var input2 = new AssignmentExpression(new IdentifierExpression(name), new ConstantExpression(value));
             evaluator2.Evaluate(input2, _ctx);
         }
 
@@ -363,7 +363,7 @@ namespace DwLang.Tests
             {
                 return null;
             }
-            return (res as Constant).Value;
+            return (res as ConstantExpression).Value;
         }
     }
 }

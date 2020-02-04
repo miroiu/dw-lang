@@ -1,8 +1,8 @@
 ﻿namespace DwLang.Language.Expressions
 {
-    public class Grouping : Expression
+    public class GroupingExpression : Expression
     {
-        public Grouping(Expression inner)
+        public GroupingExpression(Expression inner)
         {
             Inner = inner;
         }

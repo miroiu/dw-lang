@@ -9,7 +9,7 @@ namespace DwLang.Language.Interpreter
         {
             try
             {
-                if (expression == null || expression is Constant)
+                if (expression == null || expression is ConstantExpression)
                 {
                     return expression;
                 }

@@ -1,8 +1,8 @@
 ﻿namespace DwLang.Language.Expressions
 {
-    public class Identifier : Expression
+    public class IdentifierExpression : Expression
     {
-        public Identifier(string name)
+        public IdentifierExpression(string name)
         {
             Name = name;
         }

@@ -12,9 +12,12 @@ namespace DwLang.Language.Parser
             var equalsToken = parser.Take(TokenType.Equals);
 
             var expr = parser.ParseExpression();
-            var identifier = new Identifier(id.Text);
+            var identifier = new IdentifierExpression(id.Text)
+            {
+                Token = id
+            };
 
-            return new Assignment(identifier, expr)
+            return new AssignmentExpression(identifier, expr)
             {
                 Token = equalsToken
             };

@@ -16,7 +16,7 @@ namespace DwLang.Language.Parser
                 NumberDecimalSeparator = ","
             });
 
-            return new Constant(result)
+            return new ConstantExpression(result)
             {
                 Token = numToken
             };

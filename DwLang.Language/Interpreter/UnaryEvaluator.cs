@@ -10,17 +10,17 @@ namespace DwLang.Language.Interpreter
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
             var casted = expression as UnaryExpression;
-            var value = (Reducer.Reduce(casted.Operand, ctx) as Constant).Value;
+            var value = (Reducer.Reduce(casted.Operand, ctx) as ConstantExpression).Value;
             switch (casted.OperatorType)
             {
                 case UnaryOperatorType.Factorial:
-                    return new Constant(Factorial(value, ctx.MathContext, expression));
+                    return new ConstantExpression(Factorial(value, ctx.MathContext, expression));
 
                 case UnaryOperatorType.Sqr:
-                    return new Constant(Sqrt(value.ToBigInteger(), ctx.MathContext));
+                    return new ConstantExpression(Sqrt(value.ToBigInteger(), ctx.MathContext));
 
                 case UnaryOperatorType.Minus:
-                    return new Constant(-value);
+                    return new ConstantExpression(-value);
 
                 case UnaryOperatorType.Print:
                     ctx.Print(value);

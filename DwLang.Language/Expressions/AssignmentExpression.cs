@@ -1,14 +1,14 @@
 ﻿namespace DwLang.Language.Expressions
 {
-    public class Assignment : Expression
+    public class AssignmentExpression : Expression
     {
-        public Assignment(Identifier identifier, Expression initializer)
+        public AssignmentExpression(IdentifierExpression identifier, Expression initializer)
         {
             Identifier = identifier;
             Initializer = initializer;
         }
 
-        public Identifier Identifier { get; }
+        public IdentifierExpression Identifier { get; }
         public Expression Initializer { get; }
     }
 }

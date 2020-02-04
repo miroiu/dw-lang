@@ -2,9 +2,9 @@
 
 namespace DwLang.Language.Expressions
 {
-    public class Constant : Expression
+    public class ConstantExpression : Expression
     {
-        public Constant(BigDecimal value)
+        public ConstantExpression(BigDecimal value)
         {
             Value = value;
         }

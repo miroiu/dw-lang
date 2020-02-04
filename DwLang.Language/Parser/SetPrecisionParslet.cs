@@ -12,7 +12,7 @@ namespace DwLang.Language.Parser
             parser.Take(TokenType.Precision);
             var value = parser.ParseExpression();
 
-            return new SetPrecision(value)
+            return new SetPrecisionExpression(value)
             {
                 Token = setToken
             };

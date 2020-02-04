@@ -9,8 +9,8 @@ namespace DwLang.Language.Interpreter
         public Expression Evaluate(Expression expression, ExecutionContext ctx)
         {
             var casted = expression as BinaryExpression;
-            var left = (Reducer.Reduce(casted.Left, ctx) as Constant).Value;
-            var right = (Reducer.Reduce(casted.Right, ctx) as Constant).Value;
+            var left = (Reducer.Reduce(casted.Left, ctx) as ConstantExpression).Value;
+            var right = (Reducer.Reduce(casted.Right, ctx) as ConstantExpression).Value;
 
             switch (casted.OperatorType)
             {
@@ -25,19 +25,19 @@ namespace DwLang.Language.Interpreter
                     {
                         result = BigMath.Divide(left, right, mathCtx);
                     }
-                    return new Constant(BigMath.StripTrailingZeros(result));
+                    return new ConstantExpression(BigMath.StripTrailingZeros(result));
 
                 case BinaryOperatorType.Minus:
-                    return new Constant(BigMath.StripTrailingZeros(BigMath.Subtract(left, right, ctx.MathContext)));
+                    return new ConstantExpression(BigMath.StripTrailingZeros(BigMath.Subtract(left, right, ctx.MathContext)));
 
                 case BinaryOperatorType.Multiply:
-                    return new Constant(BigMath.StripTrailingZeros(BigMath.Multiply(left, right, ctx.MathContext)));
+                    return new ConstantExpression(BigMath.StripTrailingZeros(BigMath.Multiply(left, right, ctx.MathContext)));
 
                 case BinaryOperatorType.Plus:
-                    return new Constant(BigMath.StripTrailingZeros(BigMath.Add(left, right, ctx.MathContext)));
+                    return new ConstantExpression(BigMath.StripTrailingZeros(BigMath.Add(left, right, ctx.MathContext)));
 
                 case BinaryOperatorType.Pow:
-                    return new Constant(BigMath.StripTrailingZeros(BigMath.Pow(left, right.ToInt32(), ctx.MathContext)));
+                    return new ConstantExpression(BigMath.StripTrailingZeros(BigMath.Pow(left, right.ToInt32(), ctx.MathContext)));
 
                 case BinaryOperatorType.Prm:
                     return new BinaryExpression(
@@ -51,10 +51,10 @@ namespace DwLang.Language.Interpreter
                     BinaryExpression final = null;
                     for (var i = t; i >= 1; i--)
                     {
-                        var add = new BinaryExpression(casted.Left, BinaryOperatorType.Pow, new Constant(new BigDecimal(i)));
+                        var add = new BinaryExpression(casted.Left, BinaryOperatorType.Pow, new ConstantExpression(new BigDecimal(i)));
                         if (final == null)
                         {
-                            final = new BinaryExpression(new Constant(BigDecimal.Zero), BinaryOperatorType.Plus, add);
+                            final = new BinaryExpression(new ConstantExpression(BigDecimal.Zero), BinaryOperatorType.Plus, add);
                         }
                         else
                         {

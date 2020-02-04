@@ -1,8 +1,8 @@
 ﻿namespace DwLang.Language.Expressions
 {
-    public class SetPrecision : Expression
+    public class SetPrecisionExpression : Expression
     {
-        public SetPrecision(Expression precision)
+        public SetPrecisionExpression(Expression precision)
         {
             Precision = precision;
         }

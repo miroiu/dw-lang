@@ -1,8 +1,8 @@
 ﻿namespace DwLang.Language.Expressions
 {
-    public class Command : Expression
+    public class CommandExpression : Expression
     {
-        public Command(CommandType command)
+        public CommandExpression(CommandType command)
         {
             Type = command;
         }

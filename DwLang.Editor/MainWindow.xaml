@@ -4,12 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DwLang.Editor"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="DwLang" Height="450" Width="800">
+        Title="DwLang"
+        Height="450"
+        Width="800">
 
     <Window.DataContext>
         <local:DwLangApp />
     </Window.DataContext>
+
+    <Window.Resources>
+        <local:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <local:CollectionSizeVisbilityConverter x:Key="CollectionSizeVisbilityConverter" />
+    </Window.Resources>
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -17,6 +25,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
@@ -26,22 +35,123 @@
                  MaxHeight="200"
                  FontSize="14"
                  Margin="0 0 0 5"
+                 Grid.ColumnSpan="2"
                  VerticalScrollBarVisibility="Auto"
                  BorderBrush="Orange"
                  AcceptsReturn="True" />
+
+        <Button Command="{Binding RunCommand}"
+                BorderBrush="Orange"
+                Background="LightGray"
+                Padding="20 0"
+                Margin="5 0 0 5"
+                Content="Run"
+                Grid.Column="2"
+                FontSize="14" />
 
         <TextBox Text="{Binding Console.Output, Mode=OneWay}"
                  MinHeight="25"
                  IsReadOnly="True"
                  Grid.Row="1"
                  FontSize="14"
-                 Grid.ColumnSpan="2"
                  AcceptsReturn="True"
                  Cursor="Arrow"
                  BorderBrush="LightGray"
                  TextWrapping="Wrap"
                  VerticalScrollBarVisibility="Auto" />
 
-        <Button Command="{Binding RunCommand}" BorderBrush="Orange" Background="LightGray" Padding="20 0" Margin="5 0 0 5" Content="Run" Grid.Column="1" FontSize="14" />
+        <Border BorderBrush="LightGray"
+                BorderThickness="1"
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2">
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TreeView ItemsSource="{Binding Nodes}"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          VirtualizingPanel.VirtualizationMode="Recycling"
+                          BorderBrush="Transparent">
+                    <i:Interaction.Behaviors>
+                        <local:SelectedTreeItemBehavior SelectedItem="{Binding SelectedNode, Mode=TwoWay}" />
+                    </i:Interaction.Behaviors>
+
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded"
+                                    Value="True" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+
+                    <TreeView.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                         Color="LightGray" />
+
+                        <Style x:Key="nodeStyle"
+                               TargetType="TextBlock">
+                            <Setter Property="Foreground"
+                                    Value="DodgerBlue" />
+                            <Setter Property="FontWeight"
+                                    Value="SemiBold" />
+                        </Style>
+
+                        <HierarchicalDataTemplate DataType="{x:Type local:DwLangTreeNode}"
+                                                  ItemsSource="{Binding Children}">
+                            <TextBlock Text="{Binding Type}"
+                                       Style="{StaticResource nodeStyle}" />
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
+
+                <Border Padding="5 0"
+                        BorderThickness="1"
+                        BorderBrush="DarkOrange"
+                        Background="Orange"
+                        CornerRadius="4"
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        Visibility="{Binding Nodes, Converter={StaticResource CollectionSizeVisbilityConverter}}">
+                    <TextBlock Text="Select an expression to display more information."
+                               Foreground="White"
+                               FontWeight="Bold" />
+                </Border>
+
+                <StackPanel Grid.Row="2"
+                            Visibility="{Binding SelectedNode, Converter={StaticResource NullToVisibilityConverter}}">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin"
+                                    Value="5" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Type:" />
+                        <TextBlock Text="{Binding SelectedNode.Type}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Text:" />
+                        <TextBlock Text="{Binding SelectedNode.Text}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Position:" />
+                        <TextBlock Text="{Binding SelectedNode.Line}"
+                                   Margin="5 5 0 0" />
+                        <TextBlock Text=","
+                                   Margin="0 5" />
+                        <TextBlock Text="{Binding SelectedNode.Column}"
+                                   Margin="0 5" />
+                    </StackPanel>
+                </StackPanel>
+
+            </Grid>
+        </Border>
     </Grid>
 </Window>

@@ -10,7 +10,7 @@ namespace DwLang.Language.Parser
         {
             var opToken = parser.Take(TokenType.Cls);
 
-            return new Command(opToken.ToCommandType())
+            return new CommandExpression(opToken.ToCommandType())
             {
                 Token = opToken
             };

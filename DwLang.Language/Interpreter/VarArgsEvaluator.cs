@@ -19,7 +19,7 @@ namespace DwLang.Language.Interpreter
                         sumExpr = new BinaryExpression(sumExpr, BinaryOperatorType.Plus, casted.Arguments.ElementAt(i));
                     }
 
-                    var binary = new BinaryExpression(sumExpr, BinaryOperatorType.Divide, new Constant(new Deveel.Math.BigDecimal(casted.Arguments.Count)));
+                    var binary = new BinaryExpression(sumExpr, BinaryOperatorType.Divide, new ConstantExpression(new Deveel.Math.BigDecimal(casted.Arguments.Count)));
                     return Reducer.Reduce(binary, ctx);
 
                 case VarArgsOperatorType.Med:
@@ -68,8 +68,8 @@ namespace DwLang.Language.Interpreter
             {
                 return 1;
             }
-            var c1 = (v1 as Constant).Value;
-            var c2 = (v2 as Constant).Value;
+            var c1 = (v1 as ConstantExpression).Value;
+            var c2 = (v2 as ConstantExpression).Value;
             if (c1 == null && c2 == null)
             {
                 return 0;

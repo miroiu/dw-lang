@@ -12,7 +12,7 @@ namespace DwLang.Language.Parser
             var expr = parser.ParseExpression();
             parser.Take(TokenType.CloseParen);
 
-            return new Grouping(expr)
+            return new GroupingExpression(expr)
             {
                 Token = openParenToken
             };

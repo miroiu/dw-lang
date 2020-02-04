@@ -18,7 +18,10 @@ namespace DwLang.Language.Parser
                 initializer = parser.ParseExpression();
             }
 
-            return new VariableDeclaration(new Identifier(identifierToken.Text), initializer)
+            return new VariableDeclarationExpression(new IdentifierExpression(identifierToken.Text)
+            {
+                Token = identifierToken
+            }, initializer)
             {
                 Token = varToken
             };
